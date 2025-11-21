@@ -2,6 +2,7 @@ import express from "express";
 import { validateSignUp } from "../middlewares/signupvalidations.js";
 import { signUp, login, logout } from "../controllers/auth.controller.js";
 import { validateLogin } from "../middlewares/loginValidations.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router();
 
@@ -9,6 +10,6 @@ authRouter.post("/signup", validateSignUp, signUp);
 
 authRouter.post("/login", validateLogin, login);
 
-authRouter.post("/logout", logout);
+authRouter.post("/logout", authenticate, logout);
 
 export default authRouter;
