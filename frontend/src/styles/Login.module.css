@@ -1,0 +1,81 @@
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 600px;
+    padding: 30px;
+    background-color: #8CE4FF;
+    border-radius: 60px;
+}
+
+.imagediv {
+    height: 40%;
+}
+
+.imagediv img {
+    border: 4px solid white;
+    border-radius: 80px;
+}
+
+.imagediv h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.loginform {
+    width: 100%;
+    height: 60%;
+    padding-top: 30px;
+}
+
+.formrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.formrow label, .formrow input, .formrow .buttondiv {
+    width: 90%;
+}
+
+.formrow label {
+    font-size: 1.4rem;
+}
+
+.formrow input {
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.formrow input:focus {
+    transform: scale(1.02);
+}
+
+.buttondiv {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.buttondiv button {
+    width: 90%;
+    height: 50px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    background-color: #FEEE91;
+}
