@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import styles from '../styles/Login.module.css'
 import airplanegif from '../assets/airplaneanimation.gif'
 import handleLogin from '../utils/handleLogin';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Login() {
 
-  const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
   const navigate = useNavigate();
+  const {user, handleAuthContextOnLogin} = useContext(AuthContext);
+
+  // Check if the user already have the token
+  if (user === null) return null;
+
+  if (user === true) navigate('/chats', { replace: true });
+
+
+  const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
 
   const handleUpdate = (e, item = "email") => {
     setUserDetails(prev => ({ ...prev, [item]: e.target.value }));
@@ -27,6 +36,7 @@ function Login() {
       setUserDetails({'email': "", 'password': ""});
     }
     
+    handleAuthContextOnLogin(true);
     toast.success("Login Successfull.", { id: toastl });
     navigate('/chats', { replace: true });
   }

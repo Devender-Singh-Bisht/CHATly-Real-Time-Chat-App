@@ -2,6 +2,7 @@ import App from "./pages/App";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Chats from "./pages/Chats";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const routes = [
     {
@@ -18,7 +19,7 @@ const routes = [
     },
     {
         path: "chats",
-        element: <Chats/>,
+        element: <ProtectedRoute><Chats/></ProtectedRoute>
     },
 ]
 
