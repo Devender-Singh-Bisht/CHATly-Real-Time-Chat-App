@@ -1,0 +1,88 @@
+.page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(104deg, var(--darkBlue) 0%, var(--primaryBlue) 61%, var(--primaryBlue) 100%);
+    padding: 20px;
+}
+
+.form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+    font-size: 2.5rem;
+    color: var(--darkBlue);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--darkBlue);
+}
+
+.step {
+    color: #9ca3af;
+}
+
+.activeStep {
+    color: var(--darkBlue);
+    font-weight: 600;
+    border-bottom: 2px solid var(--darkBlue);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input {
+    border: 1px solid #d1d5db;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.input:focus {
+    transform: scale(1.02);
+}
+
+.textarea {
+    height: 200px;
+}
+
+.textarea:focus {
+    transform: scale(1.02);
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.primaryBtn {
+    padding: 10px 25px;
+    background: var(--yellow);
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.secondaryBtn {
+    padding: 10px 25px;
+    background: #e5e7eb;
+    border: 1px solid black;
+    cursor: pointer;
+}
