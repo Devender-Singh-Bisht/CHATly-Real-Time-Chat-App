@@ -5,6 +5,7 @@
     align-items: center;
     width: 100vw;
     height: 100vh;
+    background: linear-gradient(104deg, var(--darkBlue) 0%, var(--primaryBlue) 61%, var(--primaryBlue) 100%);
 }
 
 .main {
@@ -15,8 +16,8 @@
     width: 500px;
     height: 600px;
     padding: 30px;
-    background-color: #8CE4FF;
-    border-radius: 60px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .imagediv {
@@ -24,13 +25,13 @@
 }
 
 .imagediv img {
-    border: 4px solid white;
     border-radius: 80px;
 }
 
 .imagediv h1 {
     font-size: 2.5rem;
     text-align: center;
+    color: var(--darkBlue);
 }
 
 .loginform {
@@ -57,7 +58,6 @@
 .formrow input {
     height: 40px;
     padding: 0 10px;
-    border-radius: 10px;
     font-size: 1rem;
     transition: transform 0.3s ease-in-out;
 }
@@ -76,6 +76,5 @@
     width: 90%;
     height: 50px;
     font-size: 1.2rem;
-    border-radius: 10px;
     background-color: #FEEE91;
 }
