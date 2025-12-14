@@ -10,14 +10,12 @@ function Login() {
 
   const navigate = useNavigate();
   const {user, handleAuthContextOnLogin} = useContext(AuthContext);
+  const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
 
   // Check if the user already have the token
   if (user === null) return null;
 
   if (user === true) navigate('/chats', { replace: true });
-
-
-  const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
 
   const handleUpdate = (e, item = "email") => {
     setUserDetails(prev => ({ ...prev, [item]: e.target.value }));
