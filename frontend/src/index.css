@@ -1,21 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
 
+:root {
+    --primaryBlue: #8CE4FF;
+    --darkBlue: #2a7b9b;
+    --yellow: #FEEE91;
+}
 
 * {
     margin: 0;
     padding: 0;
     font-family: "Funnel Display", sans-serif;
+    box-sizing: border-box;
 }
-
-/* body {
-    background-color: black;
-} */
-
-/* .login-form {
-    max-width: 45%;
-    height: 300px;
-} */
-
-/* .spotlight {
-    height: inherit;
-} */
