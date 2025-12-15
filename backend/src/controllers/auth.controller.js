@@ -49,9 +49,10 @@ async function login(req, res) {
         const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
         res.cookie('jwt', token, {
             httpOnly: true,
-            // secure: true, // Use "secure: true" in production with HTTPS
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            secure: false, // Use "secure: true" in production with HTTPS
+            sameSite: 'lax',
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         return res.status(200).json({ success: true, message: "Login Successful." });
@@ -67,11 +68,31 @@ async function login(req, res) {
 function logout(req, res) {
     try {
         res.clearCookie("jwt");
-        return res.status(200).json({ success: true, message: "Logout Successful." , user: req.userDetails});
+        return res.status(200).json({ success: true, message: "Logout Successful.", user: req.userDetails });
     } catch (error) {
         console.log("Errors in Logout controller: ", error)
         return res.status(500).json({ message: "Internal Sever Error." });
     }
 }
 
-export { signUp, login, logout };
+function verify(req, res) {
+
+    try {
+        const token = req.cookies.jwt;
+
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized: No token provided." });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        if (!decoded) {
+            return res.status(401).json({ message: "Unauthorized: Invalid Token." });
+        }
+        return res.status(200).json({ success: true, message: "Verified User" });
+    } catch (error) {
+        console.log("Errors in Verify controller: ", error)
+        return res.status(500).json({ message: "Internal Sever Error." });
+    }
+}
+
+export { signUp, login, logout, verify };
