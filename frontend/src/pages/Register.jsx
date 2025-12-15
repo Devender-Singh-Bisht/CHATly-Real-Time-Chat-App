@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { validateRegisterFormActions } from "../utils/validateRegisterFormActions";
 import styles from "../styles/Register.module.css";
 import toast from "react-hot-toast";
 import handleRegister from "../utils/handleRegister";
 import { useNavigate } from 'react-router';
+import { AuthContext } from "../contexts/AuthContext";
 
 
 export default function Registration() {
 
+  const { user } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     email: "",
@@ -20,6 +24,11 @@ export default function Registration() {
     bio: "",
     gender: "",
   });
+
+  // Check if the user already have the token
+  if (user === null) return null;
+
+  if (user === true) navigate('/chats', { replace: true });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
