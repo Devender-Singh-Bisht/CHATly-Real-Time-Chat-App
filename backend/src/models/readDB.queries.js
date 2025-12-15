@@ -1,7 +1,7 @@
-import {Database} from "./pool.js";
+import { Database } from "./pool.js";
 
 export async function getAllUsers() {
-    const {rows} = await Database.query("SELECT * FROM users");
+    const { rows } = await Database.query("SELECT * FROM users");
     return rows;
 }
 
@@ -20,5 +20,128 @@ export async function getUserById(id) {
     return rows;
 }
 
+// Get all friends of a user
+export async function getFriendsByUserID(id) {
 
+    const query = `
+        SELECT 
+            u.user_id,
+            u.email,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.bio,
+            u.profile_pic_url,
+            u.gender,
+            u.last_seen,
+            u.is_online
+        FROM friend_requests fr
+        JOIN users u 
+            ON u.user_id = CASE 
+                        WHEN fr.sender_id = $1 THEN fr.receiver_id
+                        ELSE fr.sender_id
+                        END
+        WHERE fr.status = 'accepted'
+            AND ($1 = fr.sender_id OR $1 = fr.receiver_id);
+    `;
 
+    const { rows } = await Database.query(query, [id]);
+    return rows;
+
+}
+
+// Get recommended users for a user
+export async function getRecommendedUsersbyUserId(id) {
+
+    const query = `
+        SELECT 
+            u.user_id,
+            u.email,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.bio,
+            u.profile_pic_url,
+            u.gender,
+            u.last_seen,
+            u.is_online
+        FROM users u
+        WHERE u.user_id != $1
+            AND u.user_id NOT IN (
+                SELECT 
+                    CASE 
+                        WHEN fr.sender_id = $1 THEN fr.receiver_id
+                        ELSE fr.sender_id
+                    END
+                FROM friend_requests fr
+                WHERE ($1 = fr.sender_id OR $1 = fr.receiver_id)
+                    AND fr.status IN ('accepted', 'pending')
+            )
+        LIMIT 50;
+    `;
+
+    const { rows } = await Database.query(query, [id]);
+    return rows;
+
+}
+
+// Get pending freind requests for a user
+export async function getFriendRequestbyUserId(id) {
+
+    const query = `
+    SELECT 
+      fr.request_id,
+      fr.sender_id,
+      fr.sent_at,
+      u.user_id,
+      u.username,
+      u.first_name,
+      u.last_name,
+      u.profile_pic_url,
+      u.is_online,
+      u.bio
+    FROM friend_requests fr
+    JOIN users u 
+      ON u.user_id = fr.sender_id
+    WHERE fr.receiver_id = $1
+      AND fr.status = 'pending'
+    ORDER BY fr.sent_at DESC;
+  `;
+
+    const { rows } = await Database.query(query, [id]);
+    return rows;
+
+}
+    
+// Get past conversations of a user
+export async function getPastConversations(id) {
+
+    const query = `
+    SELECT DISTINCT ON (other_user_id)
+       m.message_id,
+       m.content,
+       m.sent_at,
+       other_user_id,
+       u.username,
+       u.first_name,
+       u.last_name,
+       u.profile_pic_url,
+       u.is_online
+    FROM (
+        SELECT 
+            m.*,
+            CASE 
+                WHEN m.sender_id = $1 THEN m.receiver_id
+                ELSE m.sender_id
+            END AS other_user_id
+        FROM messages m
+        WHERE m.sender_id = $1 OR m.receiver_id = $1
+    ) AS m
+    JOIN users u ON u.user_id = m.other_user_id
+    ORDER BY other_user_id, m.sent_at DESC;
+    `;
+
+    const { rows } = await Database.query(query, [id]);
+    return rows;
+    
+}
