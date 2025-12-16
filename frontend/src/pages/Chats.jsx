@@ -1,11 +1,17 @@
+import ChatsNavbar from "../components/ChatsNavbar";
+import ChatsSidebar from "../components/ChatsSidebar";
+import ChatsWindow from "../components/ChatsWindow";
+import styles from "../styles/Chats.module.css";
 
-function Chats() {
+export default function Chats() {
 
   return (
-    <>
-      <h1>Chats Page</h1>
-    </>
-  )
+    <div className={styles.page}>
+      <ChatsNavbar />
+      <div className={styles.container}>
+        <ChatsSidebar />
+        <ChatsWindow />
+      </div>
+    </div>
+  );
 }
-
-export default Chats;
