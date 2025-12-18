@@ -1,0 +1,71 @@
+/* Sidebar */
+.sidebar {
+  width: 25%;
+  background: #ffffff;
+  border-right: 1px solid #ddd;
+  /* overflow-y: auto; */
+}
+
+.sidebarHeader {
+  height: 80px;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebarChats {
+  padding: 10px;
+  overflow-y: auto;
+  height: 90%;
+}
+
+.sidebarChats::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebarChats::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.sidebarChats::-webkit-scrollbar-thumb {
+  background-color: var(--primaryBlue);
+}
+
+.chatItem {
+  display: flex;
+  padding: 20px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.chatItem:hover {
+  background: #e9e6e6;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #bbb;
+  margin-right: 12px;
+}
+
+.avatar img {
+  max-width: 100%;
+}
+
+.chatInfo h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.chatInfo p {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.time {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #888;
+}

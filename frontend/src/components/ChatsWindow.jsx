@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../styles/Chats.module.css";
+import styles from "../styles/ChatsWindow.module.css";
 import EmojiPicker from "emoji-picker-react";
 
 function ChatsWindow() {
@@ -10,8 +10,17 @@ function ChatsWindow() {
     const messages = [
         { id: 1, text: "Hello!", self: false },
         { id: 2, text: "Hi, how are you?", self: true },
-        { id: 3, text: "All good 👍", self: false },
-        { id: 3, text: "🙃😘😘😍🤩🤩🤩☺️", self: true },
+        { id: 2, text: "I m fine, way?", self: false },
+        { id: 2, text: "I m also fine", self: true },
+        { id: 2, text: "What's going on?", self: false },
+        { id: 2, text: "Nothing special...", self: true },
+        { id: 2, text: "Same here", self: false },
+        { id: 2, text: "Time to sleep", self: true },
+        { id: 2, text: "Yeahh", self: false },
+        { id: 2, text: "Good Night", self: true },
+        { id: 2, text: "Good Night", self: false },
+        { id: 3, text: "👍", self: false },
+        { id: 3, text: "🙃", self: true },
     ];
 
     const handleInputChange = (e) => setInput(prev => e.target.value);
@@ -24,9 +33,9 @@ function ChatsWindow() {
             {/* Header */}
             <div className={styles.chatHeader}>
                 <div className={styles.avatar}>
-                    <img src="https://avatar.iran.liara.run/public/41" alt="" />
+                    <img src="/images/41.png" alt="" />
                 </div>
-                <div>
+                <div className={styles.chatHeaderText}>
                     <h4>Rahul</h4>
                     <span className={styles.status}>online</span>
                 </div>
