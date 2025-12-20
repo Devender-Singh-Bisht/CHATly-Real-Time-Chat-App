@@ -1,7 +1,8 @@
 
 async function handleRegister(form) {
 
-    const res = await fetch("http://localhost:3000/api/auth/signup", {
+    const URL = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${URL}/api/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
