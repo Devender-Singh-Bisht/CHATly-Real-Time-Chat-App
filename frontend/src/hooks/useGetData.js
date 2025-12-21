@@ -13,11 +13,11 @@ export default function useGetData(url, options = {}, wantToast = false, depende
     const fetchData = async () => {
         if (!url) return;
 
+        let toastId;
         controllerRef.current?.abort();
         controllerRef.current = new AbortController();
 
         try {
-            let toastId;
             if (wantToast) {
                 toastId = toast.loading("Fetching data...")
             }
@@ -56,5 +56,5 @@ export default function useGetData(url, options = {}, wantToast = false, depende
         return () => controllerRef.current.abort();
     }, dependencies);
 
-    return {data, error, isLoading}
+    return [data, error, isLoading]
 }
