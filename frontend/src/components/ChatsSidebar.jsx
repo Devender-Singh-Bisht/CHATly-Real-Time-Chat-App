@@ -1,21 +1,32 @@
+import useGetData from "../hooks/useGetData";
 import styles from "../styles/ChatsSidebar.module.css";
+import { getLocal24HourTime } from "../utils/time.utils";
+
 
 function ChatsSidebar() {
 
-    const chats = [
-        { id: 1, name: "Rahul", last: "Hey there!", time: "10:30 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
-        { id: 2, name: "Aman", last: "How are you?", time: "09:10 AM" },
+    const URL = import.meta.env.VITE_API_URL;
+    const convoUrl = `${URL}/api/user/conversations`;
+    const [data, error, isLoading] = useGetData(convoUrl, true);
+
+    let chats = [
+        { key: 1, name: "", last: "", time: "" },
+        { key: 2, name: "", last: "", time: "" },
+        { key: 3, name: "", last: "", time: "" }
     ];
+
+    if (data) {
+        chats = []
+        chats = data["data"]?.map((user) => {
+            return {
+                key: user["other_user_id"],
+                name: user["first_name"],
+                last: user["content"],
+                time: getLocal24HourTime(user["sent_at"]),
+                profilePic: user["profile_pic_url"]
+            };
+        });
+    }
 
     return (
         <aside className={styles.sidebar}>
@@ -24,9 +35,10 @@ function ChatsSidebar() {
             </div>
             <div className={styles.sidebarChats}>
                 {chats.map(chat => (
-                    <div key={chat.id} className={styles.chatItem}>
+                    <div key={chat.key} className={styles.chatItem}>
                         <div className={styles.avatar}>
-                            <img src="/images/41.png" alt="" />
+                            {/* <img src={chat.profilePic} alt="Profile image" /> */}
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" /></svg>
                         </div>
                         <div className={styles.chatInfo}>
                             <h4>{chat.name}</h4>
