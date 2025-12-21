@@ -33,8 +33,7 @@ export async function getFriendsByUserID(id) {
             u.bio,
             u.profile_pic_url,
             u.gender,
-            u.last_seen,
-            u.is_online
+            u.last_seen
         FROM friend_requests fr
         JOIN users u 
             ON u.user_id = CASE 
@@ -63,8 +62,7 @@ export async function getRecommendedUsersbyUserId(id) {
             u.bio,
             u.profile_pic_url,
             u.gender,
-            u.last_seen,
-            u.is_online
+            u.last_seen
         FROM users u
         WHERE u.user_id != $1
             AND u.user_id NOT IN (
@@ -97,8 +95,7 @@ export async function getFriendRequestbyUserId(id) {
       u.username,
       u.first_name,
       u.last_name,
-      u.profile_pic_url,
-      u.is_online,
+      u.profile_pic_url
       u.bio
     FROM friend_requests fr
     JOIN users u 
@@ -125,8 +122,7 @@ export async function getPastConversations(id) {
        u.username,
        u.first_name,
        u.last_name,
-       u.profile_pic_url,
-       u.is_online
+       u.profile_pic_url
     FROM (
         SELECT 
             m.*,
