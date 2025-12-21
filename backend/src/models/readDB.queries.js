@@ -109,20 +109,20 @@ export async function getFriendRequestbyUserId(id) {
     return rows;
 
 }
-    
+
 // Get past conversations of a user
 export async function getPastConversations(id) {
 
-    const query = `
+    const query = ` SELECT * FROM (
     SELECT DISTINCT ON (other_user_id)
-       m.message_id,
-       m.content,
-       m.sent_at,
-       other_user_id,
-       u.username,
-       u.first_name,
-       u.last_name,
-       u.profile_pic_url
+        m.message_id,
+        m.content,
+        m.sent_at,
+        other_user_id,
+        u.username,
+        u.first_name,
+        u.last_name,
+        u.profile_pic_url
     FROM (
         SELECT 
             m.*,
@@ -134,10 +134,15 @@ export async function getPastConversations(id) {
         WHERE m.sender_id = $1 OR m.receiver_id = $1
     ) AS m
     JOIN users u ON u.user_id = m.other_user_id
-    ORDER BY other_user_id, m.sent_at DESC;
-    `;
+    ORDER BY 
+        other_user_id,
+        m.sent_at DESC,
+        m.message_id DESC
+    ) t
+    ORDER BY sent_at DESC;`
 
+    // ORDER BY other_user_id, m.sent_at DESC;
     const { rows } = await Database.query(query, [id]);
     return rows;
-    
+
 }
