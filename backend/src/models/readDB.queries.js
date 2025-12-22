@@ -141,8 +141,34 @@ export async function getPastConversations(id) {
     ) t
     ORDER BY sent_at DESC;`
 
-    // ORDER BY other_user_id, m.sent_at DESC;
     const { rows } = await Database.query(query, [id]);
     return rows;
 
 }
+
+// Get all messages for a user
+export async function getMessagesbyUserId(id, otherUserId) {
+
+    const query = `
+        SELECT 
+            message_id, 
+            sender_id, 
+            receiver_id, 
+            message_type, 
+            content,
+            is_read, 
+            sent_at
+        FROM messages
+        WHERE 
+            (sender_id = $1 AND receiver_id = $2) 
+            OR 
+            (sender_id = $2 AND receiver_id = $1)
+        ORDER BY sent_at ASC;
+    `;
+
+    const { rows } = await Database.query(query, [id, otherUserId]);
+    return rows;
+
+}
+
+
