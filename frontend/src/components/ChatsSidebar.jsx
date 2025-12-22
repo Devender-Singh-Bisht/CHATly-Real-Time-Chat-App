@@ -11,7 +11,7 @@ function ChatsSidebar() {
 
     const URL = import.meta.env.VITE_API_URL;
     const convoUrl = `${URL}/api/user/conversations`;
-    const [data, error, isLoading] = useGetData(convoUrl, true);
+    const [data, error, isLoading] = useGetData(convoUrl);
 
     let chats = [
         { key: 1, name: "", last: "", time: "" },
@@ -20,7 +20,6 @@ function ChatsSidebar() {
     ];
 
     if (data) {
-        chats = []
         chats = data["data"]?.map((user) => {
             return {
                 id: user["other_user_id"],
