@@ -7,6 +7,21 @@
   background: #efebe6;
 }
 
+/* Initial window */
+.initialWindow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.initialWindow h1 {
+  font-size: 4rem;
+  color: var(--darkBlue);
+}
+
+
 .chatHeader {
   height: 80px;
   background: #ffffff;

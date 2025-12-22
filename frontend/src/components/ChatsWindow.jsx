@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "../styles/ChatsWindow.module.css";
 import EmojiPicker from "emoji-picker-react";
+import { ChatContext } from "../contexts/ChatContext";
 
 function ChatsWindow() {
+
+    const { chatUser } = useContext(ChatContext);
 
     const [input, setInput] = useState("");
     const [showPicker, setShowPicker] = useState(false);
@@ -28,6 +31,16 @@ function ChatsWindow() {
     const handleEmojiPicker = (e) => setShowPicker(prev => !prev);
 
 
+    if (chatUser === null) {
+        return (
+            <section className={styles.chatWindow}>
+                <div className={styles.initialWindow}>
+                    <h1>Chatly</h1>
+                </div>
+            </section>
+        )
+    };
+
     return (
         <section className={styles.chatWindow}>
             {/* Header */}
@@ -36,7 +49,7 @@ function ChatsWindow() {
                     <img src="/images/41.png" alt="" />
                 </div>
                 <div className={styles.chatHeaderText}>
-                    <h4>Rahul</h4>
+                    <h4>{chatUser.name}</h4>
                     <span className={styles.status}>online</span>
                 </div>
             </div>
