@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createNewUser } from "../models/createDB.queries.js";
-import { getUserByEmail } from "../models/readDB.queries.js";
+import { getUserByEmail, getUserById } from "../models/readDB.queries.js";
 
 
 // SIGNUP CONTROLLER
@@ -55,7 +55,7 @@ async function login(req, res) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ success: true, message: "Login Successful." });
+        return res.status(200).json({ success: true, message: "Login Successful.", data: {user_id: user.user_id} });
 
     } catch (error) {
         console.log("Errors in Login controller: ", error)
@@ -75,7 +75,7 @@ function logout(req, res) {
     }
 }
 
-function verify(req, res) {
+async function verify(req, res) {
 
     try {
         const token = req.cookies.jwt;
@@ -88,7 +88,15 @@ function verify(req, res) {
         if (!decoded) {
             return res.status(401).json({ message: "Unauthorized: Invalid Token." });
         }
-        return res.status(200).json({ success: true, message: "Verified User" });
+
+        const users = await getUserById(decoded.userId);
+        if (users.length == 0) {
+            return res.status(401).json({ message: "Unauthorized: User not found." });
+        }
+
+        const user = users[0];
+
+        return res.status(200).json({ success: true, message: "Verified User", data: {user_id: user["user_id"]} });
     } catch (error) {
         console.log("Errors in Verify controller: ", error)
         return res.status(500).json({ message: "Internal Sever Error." });
