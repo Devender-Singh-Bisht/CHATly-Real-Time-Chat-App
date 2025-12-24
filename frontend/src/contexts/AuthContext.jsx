@@ -13,10 +13,11 @@ export const AuthProvider = ({ children }) => {
             try {
                 const res = await fetch("http://localhost:3000/api/auth/verify", { method: 'GET', credentials: "include" });
 
+                const data = await res.json();
                 if (!res.ok) {
                     throw new Error("Unable to access this URL, please Login.")
                 }
-                setUser(true);
+                setUser(data["data"]);
             } catch {
                 setUser(false);
             } finally {

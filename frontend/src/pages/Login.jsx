@@ -34,7 +34,7 @@ function Login() {
       setUserDetails({'email': "", 'password': ""});
     }
     
-    handleAuthContextOnLogin(true);
+    handleAuthContextOnLogin(data["data"]);
     toast.success("Login Successfull.", { id: toastl });
     navigate('/chats', { replace: true });
   }

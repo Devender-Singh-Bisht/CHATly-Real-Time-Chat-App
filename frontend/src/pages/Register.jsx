@@ -28,7 +28,7 @@ export default function Registration() {
   // Check if the user already have the token
   if (user === null) return null;
 
-  if (user === true) navigate('/chats', { replace: true });
+  if (user) navigate('/chats', { replace: true });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
