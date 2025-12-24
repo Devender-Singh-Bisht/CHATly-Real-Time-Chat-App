@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import styles from "../styles/ChatsWindow.module.css";
 import EmojiPicker from "emoji-picker-react";
 import { ChatContext } from "../contexts/ChatContext";
@@ -12,6 +12,7 @@ function ChatsWindow() {
 
     const [input, setInput] = useState("");
     const [showPicker, setShowPicker] = useState(false);
+    const scrollRef = useRef(null);
 
     const URL = import.meta.env.VITE_API_URL;
     let messageUrl;
@@ -31,6 +32,13 @@ function ChatsWindow() {
             };
         });
     }
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: "auto" });
+        }
+    }, [messages]);
+
 
     const handleInputChange = (e) => setInput(prev => e.target.value);
     const handleEmojiClick = (emojiObject) => setInput(prev => prev + emojiObject.emoji);
@@ -71,6 +79,8 @@ function ChatsWindow() {
                         {msg.text}
                     </div>
                 ))}
+
+                <div ref={scrollRef} />
             </div>
 
             {/* Emoji Picker */}
