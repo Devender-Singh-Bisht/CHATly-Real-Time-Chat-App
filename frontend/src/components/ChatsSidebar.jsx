@@ -13,11 +13,7 @@ function ChatsSidebar() {
     const convoUrl = `${URL}/api/user/conversations`;
     const [data, error, isLoading] = useGetData(convoUrl);
 
-    let chats = [
-        { key: 1, name: "", last: "", time: "" },
-        { key: 2, name: "", last: "", time: "" },
-        { key: 3, name: "", last: "", time: "" }
-    ];
+    let chats = [];
 
     if (data) {
         chats = data["data"]?.map((user) => {
