@@ -2,29 +2,35 @@ import { useContext, useState } from "react";
 import styles from "../styles/ChatsWindow.module.css";
 import EmojiPicker from "emoji-picker-react";
 import { ChatContext } from "../contexts/ChatContext";
+import useGetData from "../hooks/useGetData";
+import { AuthContext } from '../contexts/AuthContext';
 
 function ChatsWindow() {
 
     const { chatUser } = useContext(ChatContext);
+    const { user } = useContext(AuthContext);
 
     const [input, setInput] = useState("");
     const [showPicker, setShowPicker] = useState(false);
 
-    const messages = [
-        { id: 1, text: "Hello!", self: false },
-        { id: 2, text: "Hi, how are you?", self: true },
-        { id: 2, text: "I m fine, way?", self: false },
-        { id: 2, text: "I m also fine", self: true },
-        { id: 2, text: "What's going on?", self: false },
-        { id: 2, text: "Nothing special...", self: true },
-        { id: 2, text: "Same here", self: false },
-        { id: 2, text: "Time to sleep", self: true },
-        { id: 2, text: "Yeahh", self: false },
-        { id: 2, text: "Good Night", self: true },
-        { id: 2, text: "Good Night", self: false },
-        { id: 3, text: "👍", self: false },
-        { id: 3, text: "🙃", self: true },
-    ];
+    const URL = import.meta.env.VITE_API_URL;
+    let messageUrl;
+    if (chatUser !== null) messageUrl = `${URL}/api/user/conversations/${chatUser.id}/messages`;
+
+    const [data, error, isLoading] = useGetData(messageUrl, {}, false, [chatUser])
+
+    let messages = []
+    if (data) {
+        messages = data["data"]?.map((message) => {
+            const isSelf = (message["sender_id"] == user.user_id)
+
+            return {
+                id: message["message_id"],
+                text: message["content"],
+                self: isSelf
+            };
+        });
+    }
 
     const handleInputChange = (e) => setInput(prev => e.target.value);
     const handleEmojiClick = (emojiObject) => setInput(prev => prev + emojiObject.emoji);
