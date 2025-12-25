@@ -1,0 +1,26 @@
+
+.messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.messages::-webkit-scrollbar {
+  width: 0;
+}
+
+.message {
+  max-width: 60%;
+  min-width: 5%;
+  width: fit-content;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.self {
+  background: #d9fdd3;
+  background-color: var(--primaryBlue);
+  margin-left: auto;
+}

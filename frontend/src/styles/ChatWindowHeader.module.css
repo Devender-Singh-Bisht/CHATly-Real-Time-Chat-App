@@ -1,0 +1,31 @@
+
+.chatHeader {
+  height: 80px;
+  background: #ffffff;
+  background-color: var(--primaryBlue);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #bbb;
+  margin-right: 12px;
+}
+
+.avatar img {
+  max-width: 100%;
+}
+
+.chatHeaderText {
+  font-size: 1.1rem;
+}
+
+.status {
+  font-size: 0.85rem;
+  color: green;
+}

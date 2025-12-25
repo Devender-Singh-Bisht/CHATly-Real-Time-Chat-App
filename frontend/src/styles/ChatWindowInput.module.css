@@ -1,0 +1,47 @@
+/* Emoji Picker  */
+.emojiPickerContainer {
+  height: 300px;
+  position: absolute;
+  left: 10px;
+  bottom: 80px;
+}
+
+/* Input */
+.inputBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  padding-bottom: 25px;
+  background: #ffffff;
+}
+
+.emojiToggleContainer {
+  width: 30px;
+  cursor: pointer;
+}
+
+.emojiToggleContainer svg {
+  width: 100%;
+  fill: var(--darkBlue);
+}
+
+.inputBox input {
+  flex: 1;
+  padding: 8px;
+  font-size: 1.1rem;
+}
+
+.inputBox button {
+  width: 50px;
+  height: 30px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.inputBox button svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--darkBlue);
+}
