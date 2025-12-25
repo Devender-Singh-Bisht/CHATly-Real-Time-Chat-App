@@ -1,5 +1,6 @@
+import { createNewMessage } from "../models/createDB.queries.js";
+import { Database } from "../models/pool.js";
 import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId } from "../models/readDB.queries.js";
-import { isValidBigIntID } from "../utils/validation.utils.js";
 
 
 export async function friends(req, res) {
@@ -91,14 +92,6 @@ export async function messages(req, res) {
 
         const otherUserId = req.params.conversationId;
 
-        // Validating request path parameters 
-        if (!otherUserId || otherUserId.trim() === "") {
-            res.status(400).json({ success: false, message: "Conversation ID is required." });
-        }
-        if (!isValidBigIntID(otherUserId)) {
-            res.status(400).json({ success: false, message: "Invalid Conversation ID format." });
-        }
-
         const user = req.userDetails;
         const messages = await getMessagesbyUserId(user.user_id, otherUserId);
 
@@ -106,6 +99,31 @@ export async function messages(req, res) {
             success: true,
             count: messages.length || 0,
             data: messages
+        })
+
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+
+}
+
+
+export async function addMessage(req, res) {
+
+    try {
+
+        const otherUserId = req.params.conversationId;
+
+        const user = req.userDetails;
+        const content = req.body.content;
+
+        const message = await createNewMessage(user.user_id, otherUserId, content);
+
+        res.json({
+            success: true,
+            count: message.length || 0,
+            data: message
         })
 
     } catch (error) {
