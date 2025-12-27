@@ -10,14 +10,44 @@
 /* Initial window */
 .initialWindow {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 10px;
   height: 100%;
   width: 100%;
 }
 
-.initialWindow h1 {
-  font-size: 4rem;
+.initialWindow div {
+  font-size: 2rem;
+  color: white;
+}
+
+.initialWindow p {
+  font-size: 1.5rem;
   color: var(--darkBlue);
 }
 
+.tooltip {
+  color: #fff;
+  font-size: 18px;
+  max-width: 28ch;
+  text-align: center;
+}
+
+.tooltip {
+  --b: 1em;
+  --h: .7em;
+  --c: var(--darkBlue);
+
+  padding: 1em;
+  border-radius: 1.2em;
+  border-bottom-right-radius: 0;
+  clip-path: polygon(100% 0, 0 0, 0 100%,
+      calc(100% - var(--b)) 100%,
+      calc(100% + var(--h)) calc(100% + var(--h)),
+      100% calc(100% - var(--b)));
+  background: var(--c);
+  border-image: conic-gradient(var(--c) 0 0) 0 999 999 0/ 0 calc(var(--h) + var(--b)) calc(var(--h) + var(--b)) 0/0 var(--h) var(--h) 0;
+
+}

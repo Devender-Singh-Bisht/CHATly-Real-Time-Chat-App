@@ -14,7 +14,8 @@ function ChatsWindow() {
         return (
             <section className={styles.chatWindow}>
                 <div className={styles.initialWindow}>
-                    <h1>Chatly</h1>
+                    <div className={styles.tooltip}><h1>Chatly</h1></div>
+                    <p>Chat your way</p>
                 </div>
             </section>
         )
@@ -23,10 +24,10 @@ function ChatsWindow() {
     return (
         <section className={styles.chatWindow}>
             {/* Header */}
-            <ChatWindowHeader/>
-            
+            <ChatWindowHeader />
+
             {/* Messages */}
-            <ChatWindowMessages messages={messages} setMessages={setMessages}/>
+            <ChatWindowMessages messages={messages} setMessages={setMessages} />
 
             {/* Emoji Picker and Input  */}
             <ChatWindowInput setMessages={setMessages} />
