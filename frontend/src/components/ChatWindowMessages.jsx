@@ -1,46 +1,50 @@
 import { useContext, useRef, useEffect } from "react";
 import styles from "../styles/ChatWindowMessages.module.css";
-import useGetData from "../hooks/useGetData";
 import { AuthContext } from '../contexts/AuthContext';
 import { ChatContext } from "../contexts/ChatContext";
+import { getMessages } from "../utils/getMessages.utils";
+import toast from "react-hot-toast";
 
 
-function ChatWindowMessages({messages, setMessages}) {
+function ChatWindowMessages({ messages, setMessages }) {
 
     const scrollRef = useRef(null);
     const { user } = useContext(AuthContext);
-    const {chatUser} = useContext(ChatContext)
+    const { chatUser } = useContext(ChatContext)
 
-    const URL = import.meta.env.VITE_API_URL;
-    let messageUrl;
-    if (chatUser !== null) messageUrl = `${URL}/api/user/conversations/${chatUser.id}/messages`;
+    async function getChatMessages() {
+        if (chatUser?.id && !(chatUser.id in messages)) {
+            try {
+                const { chatMessages, nextCursor, hasMore } = await getMessages(chatUser.id);
 
-    const [data, error, isLoading] = useGetData(messageUrl, {}, false, [chatUser])
+                console.log(chatMessages);
 
-    useEffect(() => {
-        if (data && data["data"]) {
-            const newMessages = data["data"].map((message) => {
-                const isSelf = (message["sender_id"] == user.user_id);
-                return {
-                    id: message["message_id"],
-                    text: message["content"],
-                    self: isSelf
-                };
-            });
+                const newMessages = chatMessages.map((message) => {
+                    return {
+                        id: message["message_id"],
+                        text: message["content"],
+                        self: message["sender_id"] == user.user_id
+                    };
+                });
 
-            setMessages(newMessages);
+                setMessages(prev => ({ ...prev, [chatUser.id]: newMessages }));
+            } catch (error) {
+                toast.error(error || "Failed to fetch messages.")
+            }
         }
-    }, [data]);
+    }
 
     useEffect(() => {
+        getChatMessages();
+
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "auto" });
         }
-    }, [messages]);
+    }, [chatUser])
 
     return (
         <div className={styles.messages}>
-            {messages.map(msg => (
+            {messages[chatUser?.id]?.map(msg => (
                 <div
                     key={msg.id}
                     className={`${styles.message} ${msg.self ? styles.self : ""

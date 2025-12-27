@@ -8,7 +8,7 @@ import ChatWindowInput from "./ChatWindowInput";
 function ChatsWindow() {
 
     const { chatUser } = useContext(ChatContext);
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState({});
 
     if (chatUser === null) {
         return (
@@ -29,7 +29,7 @@ function ChatsWindow() {
             <ChatWindowMessages messages={messages} setMessages={setMessages}/>
 
             {/* Emoji Picker and Input  */}
-            <ChatWindowInput/>
+            <ChatWindowInput setMessages={setMessages} />
         </section>
     )
 }
