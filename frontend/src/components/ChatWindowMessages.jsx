@@ -1,23 +1,24 @@
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import styles from "../styles/ChatWindowMessages.module.css";
 import { AuthContext } from '../contexts/AuthContext';
 import { ChatContext } from "../contexts/ChatContext";
 import { getMessages } from "../utils/getMessages.utils";
 import toast from "react-hot-toast";
+import Spinner from "./Spinner";
 
 
 function ChatWindowMessages({ messages, setMessages }) {
 
     const scrollRef = useRef(null);
     const { user } = useContext(AuthContext);
-    const { chatUser } = useContext(ChatContext)
+    const { chatUser } = useContext(ChatContext);
+    const [isloading, setIsLoading] = useState(false);
 
     async function getChatMessages() {
         if (chatUser?.id && !(chatUser.id in messages)) {
             try {
+                setIsLoading(true);
                 const { chatMessages, nextCursor, hasMore } = await getMessages(chatUser.id);
-
-                console.log(chatMessages);
 
                 const newMessages = chatMessages.map((message) => {
                     return {
@@ -30,6 +31,8 @@ function ChatWindowMessages({ messages, setMessages }) {
                 setMessages(prev => ({ ...prev, [chatUser.id]: newMessages }));
             } catch (error) {
                 toast.error(error || "Failed to fetch messages.")
+            } finally {
+                setIsLoading(false);
             }
         }
     }
@@ -41,6 +44,14 @@ function ChatWindowMessages({ messages, setMessages }) {
             scrollRef.current.scrollIntoView({ behavior: "auto" });
         }
     }, [chatUser])
+
+    if (isloading) {
+        return (
+            <section className={styles.messages}>
+                <Spinner />
+            </section>
+        )
+    }
 
     return (
         <div className={styles.messages}>
