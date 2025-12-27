@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import useGetData from "../hooks/useGetData";
 import styles from "../styles/ChatsSidebar.module.css";
 import { getLocal24HourTime } from "../utils/time.utils";
 import { ChatContext } from "../contexts/ChatContext";
+import Spinner from "./Spinner"
+import toast from "react-hot-toast";
 
 
 function ChatsSidebar() {
 
-    const {handleChatUser} = useContext(ChatContext)
+    const { handleChatUser } = useContext(ChatContext)
 
     const URL = import.meta.env.VITE_API_URL;
     const convoUrl = `${URL}/api/user/conversations`;
@@ -25,6 +27,23 @@ function ChatsSidebar() {
                 profilePic: user["profile_pic_url"]
             };
         });
+    }
+
+    if(error) {
+        toast.error(error);
+    }
+
+    if (isLoading) {
+        return (
+            <aside className={styles.sidebar}>
+                <div className={styles.sidebarHeader}>
+                    <h2>Messages</h2>
+                </div>
+                <div className={styles.sidebarChats}>
+                    <Spinner />
+                </div>
+            </aside>
+        )
     }
 
     return (
