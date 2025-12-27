@@ -38,12 +38,14 @@ function ChatWindowMessages({ messages, setMessages }) {
     }
 
     useEffect(() => {
-        getChatMessages();
+        getChatMessages(); 
+    }, [chatUser])
 
+    useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "auto" });
         }
-    }, [chatUser])
+    }, [chatUser, messages])
 
     if (isloading) {
         return (
