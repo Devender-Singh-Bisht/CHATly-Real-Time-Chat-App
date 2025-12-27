@@ -30,8 +30,6 @@ export const getMessages = async (conversationId,{ limit = null, cursor = null }
         throw new Error(data.message || "Failed to fetch messages");
     }
 
-    console.log(data.data);
-
     return {
         chatMessages: data.data,
         nextCursor: data.nextCursor,
