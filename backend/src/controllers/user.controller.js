@@ -59,7 +59,7 @@ export async function friendRequests(req, res) {
 
 
     } catch (error) {
-        console.error("Error in User controller: ", err);
+        console.error("Error in User controller: ", error);
         res.status(500).json({ success: false, message: "Internal Server error" });
     }
 }

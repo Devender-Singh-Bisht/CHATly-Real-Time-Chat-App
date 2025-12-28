@@ -95,7 +95,7 @@ export async function getFriendRequestbyUserId(id) {
       u.username,
       u.first_name,
       u.last_name,
-      u.profile_pic_url
+      u.profile_pic_url,
       u.bio
     FROM friend_requests fr
     JOIN users u 
