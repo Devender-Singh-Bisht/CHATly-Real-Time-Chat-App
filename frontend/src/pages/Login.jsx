@@ -27,6 +27,7 @@ function Login() {
 
     try {
       const data = await handleLogin(userDetails.email, userDetails.password);
+      handleAuthContextOnLogin(data["data"]);
     } catch (err) {
       toast.error(err.message || "Login Failed...", { id: toastl });
       return
@@ -34,7 +35,6 @@ function Login() {
       setUserDetails({'email': "", 'password': ""});
     }
     
-    handleAuthContextOnLogin(data["data"]);
     toast.success("Login Successfull.", { id: toastl });
     navigate('/chats', { replace: true });
   }
