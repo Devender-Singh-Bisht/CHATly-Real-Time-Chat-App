@@ -13,12 +13,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #bbb;
+  background: var(--darkBlue);
   margin-right: 12px;
-}
-
-.avatar img {
-  max-width: 100%;
 }
 
 .chatHeaderText {

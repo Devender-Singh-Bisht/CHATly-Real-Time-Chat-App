@@ -30,8 +30,7 @@ function ChatWindowInput({ setMessages }) {
             };
 
             setInput("");
-            setMessages(prev => ({...prev, [chatUser.id]: tempMessage}) );
-
+            setMessages(prev => ({...prev, [chatUser.id]: [...prev[chatUser.id], tempMessage]}) );
         } catch (error) {
             toast.error(error.message);
         }

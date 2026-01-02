@@ -49,16 +49,6 @@
   margin-right: 12px;
 }
 
-.avatar img {
-  max-width: 100%;
-}
-
-.avatar svg {
-  width: 100%;
-  height: 100%;
-  fill: white;
-}
-
 .chatInfo h4,
 .chatInfo p {
   overflow: hidden;

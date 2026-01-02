@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ChatContext } from "../contexts/ChatContext";
 import styles from "../styles/ChatWindowHeader.module.css";
+import DefaultProfile from "./DefaultProfile";
 
 function ChatWindowHeader() {
 
@@ -9,7 +10,7 @@ function ChatWindowHeader() {
     return (
         <div className={styles.chatHeader}>
             <div className={styles.avatar}>
-                <img src="/images/41.png" alt="" />
+                <DefaultProfile/>
             </div>
             <div className={styles.chatHeaderText}>
                 <h4>{chatUser.name}</h4>
