@@ -15,7 +15,7 @@ function Login() {
   // Check if the user already have the token
   if (user === null) return null;
 
-  if (user === true) navigate('/chats', { replace: true });
+  if (user) navigate('/chats', { replace: true });
 
   const handleUpdate = (e, item = "email") => {
     setUserDetails(prev => ({ ...prev, [item]: e.target.value }));
