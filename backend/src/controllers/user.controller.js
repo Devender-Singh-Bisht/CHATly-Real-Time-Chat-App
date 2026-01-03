@@ -1,6 +1,6 @@
 import { createNewMessage } from "../models/createDB.queries.js";
 import { Database } from "../models/pool.js";
-import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId } from "../models/readDB.queries.js";
+import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserByUsername } from "../models/readDB.queries.js";
 
 
 export async function friends(req, res) {
@@ -131,4 +131,34 @@ export async function addMessage(req, res) {
         res.status(500).json({ success: false, message: "Internal Server error" });
     }
 
+}
+
+
+export async function userByUsername(req, res) {
+
+    try {
+        const username = req.params.username;
+        const result = await getUserByUsername(username);
+
+        if (result.length === 0) {
+            return res.json({
+                success: true,
+                count: 0,
+                data: null
+            })
+        }
+
+        const {password_hash, ...user} = result[0];
+
+        res.json({
+            success: true,
+            count: result.length || 0,
+            data: user
+        })
+
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+    
 }

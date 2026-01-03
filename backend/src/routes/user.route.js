@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import { friendRequests, conversations, friends, recommendedUsers, messages, addMessage} from "../controllers/user.controller.js";
+import { friendRequests, conversations, friends, recommendedUsers, messages, addMessage, userByUsername} from "../controllers/user.controller.js";
 import { validateMessage } from "../middlewares/validateMessage.middleware.js";
 import { validateFriendship } from "../middlewares/validateFriendship.middleware.js";
 
@@ -22,6 +22,9 @@ userRouter.get("/conversations", conversations);
 
 // Get all the messages for a particular conversations 
 userRouter.get("/conversations/:conversationId/messages",validateFriendship, messages);
+
+// Get a particular user 
+userRouter.get("/:username", userByUsername);
 
 // Add new message to a conversation 
 userRouter.post("/conversations/:conversationId/messages",validateFriendship, validateMessage, addMessage);
