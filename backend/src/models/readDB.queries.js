@@ -197,6 +197,7 @@ export async function searchUserByUsername(usernameToSearch, currentUserId) {
 
     FROM users u
     WHERE u.username ~* $2
+    AND u.user_id <> $1
     LIMIT 20;`;
 
     usernameToSearch = "^" + escapeRegex(usernameToSearch)
