@@ -3,13 +3,15 @@ import ChatsNavbar from "../components/ChatsNavbar";
 import DefaultProfile from "../components/DefaultProfile.jsx"
 import Spinner from "../components/Spinner";
 import useGetData from "../hooks/useGetData";
-import toast from "react-hot-toast";
 import SearchBar from "../components/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function FriendShip() {
 
     const [searchResults, setSearchResults] = useState(null);
+    const [friends, setFriends] = useState(null);
+    const [requests, setRequests] = useState(null);
 
     const URL = import.meta.env.VITE_API_URL;
     const requestsUrl = `${URL}/api/user/freind-requests`;
@@ -17,8 +19,14 @@ function FriendShip() {
 
     const [friendsData, friendsError, isFriendsLoading] = useGetData(friendsUrl, {}, false, []);
     const [requestsData, requestsError, isRequestsLoading] = useGetData(requestsUrl, {}, false, []);
-    const friends = friendsData?.data;
-    const requests = requestsData?.data;
+
+    useEffect(() => {
+        setFriends(friendsData?.data);
+        setRequests(requestsData?.data);
+    }, [friendsData, requestsData])
+
+    if (friendsError) toast.error(friendsError);
+    if (requestsError) toast.error(requestsError);
 
     return (
         <div className={styles.page}>
@@ -27,12 +35,30 @@ function FriendShip() {
                 <div className={styles.container}>
 
                     <section className={styles.searchUsers}>
-                        <SearchBar placeholder="Search Username..." />
+                        <SearchBar placeholder="Search Username..." setSearchResults={setSearchResults} />
                         <div className={styles.results}>
                             {searchResults ? (
-                                <div className={styles.result}></div>
+                                searchResults?.map((user) => {
+                                    return (
+                                        <div key={user.user_id} className={styles.friend}>
+                                            <div className={styles.avatar}>
+                                                <DefaultProfile fill="black" />
+                                            </div>
+                                            <div className={styles.friendDetail}>
+                                                <h3>{user.first_name + " " + user.last_name}</h3>
+                                                <p>{user.username}</p>
+                                            </div>
+                                            {user.isFriend ? (
+                                                <button className={styles.messageBtn}>Message</button>
+
+                                            ) : (
+                                                <button className={styles.addBtn}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" /></svg></button>
+                                            )}
+                                        </div>
+                                    )
+                                })
                             ) : (
-                                <div className={styles.noResults}>No Results!!</div>
+                                <div className={styles.noResults}>Search Username...</div>
                             )}
                         </div>
                     </section>
@@ -48,7 +74,7 @@ function FriendShip() {
                                 ) : (
                                     friends?.map((friend) => {
                                         return (
-                                            <div className={styles.friend}>
+                                            <div key={friend.user_id} className={styles.friend}>
                                                 <div className={styles.avatar}>
                                                     <DefaultProfile fill="black" />
                                                 </div>
@@ -76,7 +102,7 @@ function FriendShip() {
                                 ) : (
                                     requests?.map((request) => {
                                         return (
-                                            <div className={styles.friend}>
+                                            <div key={request.user_id} className={styles.friend}>
                                                 <div className={styles.avatar}>
                                                     <DefaultProfile fill="black" />
                                                 </div>
