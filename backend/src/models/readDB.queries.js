@@ -1,3 +1,4 @@
+import { escapeRegex } from "../utils/escapeRegex.js";
 import { Database } from "./pool.js";
 
 export async function getAllUsers() {
@@ -170,5 +171,39 @@ export async function getMessagesbyUserId(id, otherUserId) {
     return rows;
 
 }
+
+export async function searchUserByUsername(usernameToSearch, currentUserId) {
+    const query = `SELECT
+        u.user_id,
+        u.username,
+        u.first_name,
+        u.last_name,
+        u.bio,
+        u.profile_pic_url,
+        u.gender,
+        u.last_seen,
+        u.created_at,
+        u.updated_at,
+
+        EXISTS (
+            SELECT 1
+            FROM friend_requests fr
+            WHERE fr.status = 'accepted'
+            AND (
+                    (fr.sender_id = $1 AND fr.receiver_id = u.user_id)
+                OR (fr.sender_id = u.user_id AND fr.receiver_id = $1)
+            )
+        ) AS "isFriend"
+
+    FROM users u
+    WHERE u.username ~* $2
+    LIMIT 20;`;
+
+    usernameToSearch = "^" + escapeRegex(usernameToSearch)
+
+    const { rows } = await Database.query(query, [currentUserId, usernameToSearch]);
+    return rows;
+}
+
 
 
