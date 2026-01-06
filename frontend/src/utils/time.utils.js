@@ -7,3 +7,12 @@ export function getLocal24HourTime(isoString) {
 
   return `${hours}:${minutes}`;
 }
+
+export function getMonthYear(isoString) {
+  const date = new Date(isoString);
+
+  return date.toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
+}
