@@ -17,6 +17,8 @@
   margin-bottom: 8px;
   background: #ffffff;
   border-radius: 8px;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .self {
