@@ -1,6 +1,6 @@
 import { createNewMessage } from "../models/createDB.queries.js";
 import { Database } from "../models/pool.js";
-import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserByUsername, searchUserByUsername } from "../models/readDB.queries.js";
+import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserById, getUserByUsername, searchUserByUsername } from "../models/readDB.queries.js";
 
 
 export async function friends(req, res) {
@@ -139,23 +139,36 @@ export async function userByUsername(req, res) {
     try {
         const usernameToSearch = req.params.username;
         const userId = req.userDetails.user_id;
-        // const result = await getUserByUsername(username);
         const result = await searchUserByUsername(usernameToSearch, userId);
-
-        // if (result.length === 0) {
-        //     return res.json({
-        //         success: true,
-        //         count: 0,
-        //         data: null
-        //     })
-        // }
-
-        // const {password_hash, ...user} = result[0];
 
         res.json({
             success: true,
             count: result.length || 0,
             data: result
+        })
+
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+    
+}
+
+
+export async function profile(req, res) {
+
+    try {
+        const userId = req.userDetails.user_id;
+        const result = await getUserById(userId);
+
+        const {password_hash, ...user} = result[0];
+
+        console.log("userdata", user)
+
+        res.json({
+            success: true,
+            count: result.length || 0,
+            data: [user]
         })
 
     } catch (error) {
