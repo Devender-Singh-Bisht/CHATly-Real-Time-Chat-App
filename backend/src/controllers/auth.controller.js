@@ -55,7 +55,7 @@ async function login(req, res) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ success: true, message: "Login Successful.", data: {user_id: user.user_id} });
+        return res.status(200).json({ success: true, message: "Login Successful.", data: {user_id: user.user_id, username: user.username} });
 
     } catch (error) {
         console.log("Errors in Login controller: ", error)
@@ -96,7 +96,7 @@ async function verify(req, res) {
 
         const user = users[0];
 
-        return res.status(200).json({ success: true, message: "Verified User", data: {user_id: user["user_id"]} });
+        return res.status(200).json({ success: true, message: "Verified User", data: {user_id: user["user_id"], username: user.username} });
     } catch (error) {
         console.log("Errors in Verify controller: ", error)
         return res.status(500).json({ message: "Internal Sever Error." });
