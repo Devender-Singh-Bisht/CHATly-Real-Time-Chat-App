@@ -163,8 +163,6 @@ export async function profile(req, res) {
 
         const {password_hash, ...user} = result[0];
 
-        console.log("userdata", user)
-
         res.json({
             success: true,
             count: result.length || 0,
