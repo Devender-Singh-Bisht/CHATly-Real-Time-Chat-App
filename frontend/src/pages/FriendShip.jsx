@@ -30,7 +30,7 @@ function FriendShip() {
 
     return (
         <div className={styles.page}>
-            <ChatsNavbar />
+            <ChatsNavbar activeNav="friends" />
             <div className={styles.main}>
                 <div className={styles.container}>
 
