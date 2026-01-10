@@ -3,7 +3,6 @@
   width: 25%;
   background: #ffffff;
   border-right: 1px solid #ddd;
-  /* overflow-y: auto; */
 }
 
 .sidebarHeader {
@@ -33,6 +32,8 @@
 .chatItem {
   display: flex;
   padding: 20px 12px;
+  border-bottom: 0.1px solid var(--darkBlue);
+  border-right: 0.1px solid var(--darkBlue);
   border-radius: 10px;
   cursor: pointer;
 }

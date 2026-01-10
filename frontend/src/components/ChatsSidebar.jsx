@@ -30,21 +30,8 @@ function ChatsSidebar() {
         });
     }
 
-    if(error) {
+    if (error) {
         toast.error(error);
-    }
-
-    if (isLoading) {
-        return (
-            <aside className={styles.sidebar}>
-                <div className={styles.sidebarHeader}>
-                    <h2>Messages</h2>
-                </div>
-                <div className={styles.sidebarChats}>
-                    <Spinner />
-                </div>
-            </aside>
-        )
     }
 
     return (
@@ -53,18 +40,23 @@ function ChatsSidebar() {
                 <h2>Messages</h2>
             </div>
             <div className={styles.sidebarChats}>
-                {chats.map(chat => (
-                    <div key={chat.id} className={styles.chatItem} onClick={() => handleChatUser(chat.id, chat.name, chat.profilePic)}>
-                        <div className={styles.avatar}>
-                            <DefaultProfile/>
-                        </div>
-                        <div className={styles.chatInfo}>
-                            <h4>{chat.name}</h4>
-                            <p>{chat.last}</p>
-                        </div>
-                        <span className={styles.time}>{chat.time}</span>
-                    </div>
-                ))}
+                {
+                    isLoading ? (
+                        <Spinner />
+                    ) :
+                        (chats.map(chat => (
+                            <div key={chat.id} className={styles.chatItem} onClick={() => handleChatUser(chat.id, chat.name, chat.profilePic)}>
+                                <div className={styles.avatar}>
+                                    <DefaultProfile />
+                                </div>
+                                <div className={styles.chatInfo}>
+                                    <h4>{chat.name}</h4>
+                                    <p>{chat.last}</p>
+                                </div>
+                                <span className={styles.time}>{chat.time}</span>
+                            </div>
+                        )))
+                }
             </div>
         </aside>
     )
