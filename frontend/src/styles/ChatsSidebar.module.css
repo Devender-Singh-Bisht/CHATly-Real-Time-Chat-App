@@ -12,7 +12,7 @@
 }
 
 .sidebarChats {
-  padding: 10px;
+  padding: 10px 5px;
   overflow-y: auto;
   height: 90%;
 }
@@ -33,8 +33,6 @@
   display: flex;
   padding: 20px 12px;
   border-bottom: 0.1px solid var(--darkBlue);
-  border-right: 0.1px solid var(--darkBlue);
-  border-radius: 10px;
   cursor: pointer;
 }
 
