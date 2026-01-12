@@ -7,6 +7,6 @@ export default function ProtectedRoute({ children }) {
     const { user } = useContext(AuthContext);
 
     if (user === null) return null;
-    return user ? children : <Navigate to="/login" />;
+    return user ? children : <Navigate to="/login" replace/>;
 }
  
