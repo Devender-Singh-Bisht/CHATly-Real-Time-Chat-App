@@ -2,7 +2,10 @@ import App from "./pages/App";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Chats from "./pages/Chats";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { ChatContextProvider } from "./contexts/ChatContext";
+import AppLayout from "./components/AppLayout";
+import FriendShip from "./pages/FriendShip";
+import Profile from "./pages/Profile";
 
 const routes = [
     {
@@ -11,16 +14,29 @@ const routes = [
     },
     {
         path: "login",
-        element: <Login/>,
+        element: <Login />,
     },
     {
         path: "register",
-        element: <Register/>,
+        element: <Register />,
     },
     {
-        path: "chats",
-        element: <ProtectedRoute><Chats/></ProtectedRoute>
-    },
+        element: <AppLayout />,
+        children: [
+            {
+                path: "friends",
+                element: <FriendShip />
+            },
+            {
+                path: "chats",
+                element: <ChatContextProvider ><Chats /></ChatContextProvider >
+            },
+            {
+                path: "profile/:username",
+                element: <Profile />
+            },
+        ]
+    }
 ]
 
 export default routes;

@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { ChatContext } from "../contexts/ChatContext";
 import EmojiPicker from "emoji-picker-react";
 import styles from "../styles/ChatWindowInput.module.css";
+import toast from "react-hot-toast"
 
 function ChatWindowInput({ setMessages }) {
 
@@ -16,8 +17,10 @@ function ChatWindowInput({ setMessages }) {
     const handleInputSubmit = async () => {
         try {
 
-            if (input.length > 5000) {
-                toast.error("Message length exceeds the limit. Max 5000 characters are allowed.")
+            if(input.length < 1) return;
+
+            if (input.length > 4000) {
+                toast.error("Message length exceeds the limit. Max 4000 characters are allowed.")
                 return;
             }
 
