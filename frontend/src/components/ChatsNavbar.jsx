@@ -33,6 +33,7 @@ function ChatsNavbar({activeNav = "chats"}) {
                     return (<Link
                         to={element.url}
                         key={element.element}
+                        replace
                         className={`${styles.navIcon} ${activeNav === element.element ? styles.active : ""}`}
                     >{element.svg}</Link>)
                 })}
