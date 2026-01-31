@@ -15,7 +15,7 @@ userRouter.get( "/friends", friends );
 userRouter.get("/recommended", recommendedUsers);
 
 // Get friend request 
-userRouter.get("/freind-requests", friendRequests);
+userRouter.get("/friend-requests", friendRequests);
 
 // Get all the conversations of the user
 userRouter.get("/conversations", conversations);
