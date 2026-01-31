@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useContext } from "react"
+import { useParams, useNavigate } from "react-router"
 import ChatsNavbar from "../components/ChatsNavbar"
 import styles from "../styles/Profile.module.css"
 import DefaultProfile from "../components/DefaultProfile"
@@ -8,11 +8,13 @@ import Spinner from "../components/Spinner"
 import { AuthContext } from "../contexts/AuthContext"
 import { getMonthYear } from "../utils/time.utils"
 import toast from "react-hot-toast"
+import handleLogout from "../utils/handleLogout"
 
 function Profile() {
 
     const { username } = useParams();
-    const { user } = useContext(AuthContext);
+    const { user, handleAuthContextOnLogout } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const URL = import.meta.env.VITE_API_URL;
     let usersUrl;
@@ -24,11 +26,21 @@ function Profile() {
     }
 
     const [userData, userError, isUserLoading] = useGetData(usersUrl, {}, false, [user]);
-
     if (!userData) return null;
-
     if (userError) {
         toast.error(userError);
+    }
+
+    const logout = () => {
+        const toastId = toast.loading("Logging out!");
+        try {
+            handleLogout();
+            toast.success("Logout Successfull", { id: toastId });
+            handleAuthContextOnLogout
+            navigate("/login", { replace: true });
+        } catch (error) {
+            toast.error(error, { id: toastId });
+        }
     }
 
     if (isUserLoading) {
@@ -88,6 +100,9 @@ function Profile() {
                                 <p>Updated at:</p>
                                 <p className={styles.dates}>{getMonthYear(profile?.updated_at)}</p>
                             </div>
+                        </div>
+                        <div className={styles.row}>
+                            <button className={styles.logoutBtn} onClick={logout}>Logout</button>
                         </div>
                     </div>
                 </div>

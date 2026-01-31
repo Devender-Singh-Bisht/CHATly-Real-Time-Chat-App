@@ -85,3 +85,18 @@
   font-size: 1.2rem;
   background-color: var(--yellow);
 }
+
+/* Logout Button  */
+.logoutBtn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: var(--yellow);
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.02s ease-in;
+}
+
+.logoutBtn:hover {
+  scale: 1.04;
+}
