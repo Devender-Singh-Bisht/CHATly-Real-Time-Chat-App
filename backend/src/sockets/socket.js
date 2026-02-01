@@ -27,7 +27,6 @@ export const initSocket = (httpServer) => {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         socket.user = decoded;
-        console.log("Decoded", decoded)
         next();
       } catch (err) {
         next(new Error("Unauthorized: Invalid token"));
