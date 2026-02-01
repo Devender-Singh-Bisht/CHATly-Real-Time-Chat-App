@@ -1,21 +1,17 @@
 import "./src/config/env.js";
-
 import express from "express";
 import { createServer } from "http";
-import { Server } from 'socket.io';
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { initSocket } from "./src/sockets/socket.js";
 import authRouter from "./src/routes/auth.route.js";
 import userRouter from "./src/routes/user.route.js";
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: "http://localhost:5173",
-    credentials: true
-  }
-})
+
+// Initialize Socket.io
+initSocket(httpServer);
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -29,14 +25,7 @@ app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => res.send("Hello, world!"));
 
-io.on("connection", (socket) => {
-  console.log("User connected")
-})
-
-const PORT = process.env.PORT;
-httpServer.listen(PORT, (error) => {
-  if (error) {
-    throw error;
-  }
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
   console.log(`My Express app - listening on port ${PORT}!`);
 });

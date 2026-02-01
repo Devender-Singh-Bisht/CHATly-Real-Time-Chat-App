@@ -1,6 +1,7 @@
 import { createNewMessage } from "../models/createDB.queries.js";
 import { Database } from "../models/pool.js";
 import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserById, getUserByUsername, searchUserByUsername } from "../models/readDB.queries.js";
+import { getIO } from "../sockets/socket.js";
 
 
 export async function friends(req, res) {
@@ -119,6 +120,10 @@ export async function addMessage(req, res) {
         const content = req.body.content;
 
         const message = await createNewMessage(user.user_id, otherUserId, content);
+
+        const io = getIO();
+
+        io.to(`user: ${otherUserId}`).emit('new_message', message);
 
         res.json({
             success: true,
