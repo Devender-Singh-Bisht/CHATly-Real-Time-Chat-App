@@ -40,7 +40,7 @@ export const initSocket = (httpServer) => {
     console.log("User connected:");
 
     const userId = socket.user.userId;
-    socket.join(`userid: ${userId}`);
+    socket.join(`user: ${userId}`);
 
     socket.on("disconnect", () => {
       console.log("User disconnected");
