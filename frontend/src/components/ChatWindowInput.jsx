@@ -3,10 +3,13 @@ import { ChatContext } from "../contexts/ChatContext";
 import EmojiPicker from "emoji-picker-react";
 import styles from "../styles/ChatWindowInput.module.css";
 import toast from "react-hot-toast"
+import { sendMessage } from "../utils/sendMessage.utils";
+import { AuthContext } from "../contexts/AuthContext";
 
 function ChatWindowInput({ setMessages }) {
 
     const { chatUser } = useContext(ChatContext);
+    const { user } = useContext(AuthContext);
     const [input, setInput] = useState("");
     const [showPicker, setShowPicker] = useState(false);
 
@@ -15,29 +18,57 @@ function ChatWindowInput({ setMessages }) {
     const handleEmojiPicker = (e) => setShowPicker(prev => !prev);
 
     const handleInputSubmit = async () => {
+        const messageText = input.trim();
+        if (messageText.length < 1) return;
+        if (messageText.length > 4000) {
+            toast.error("Message length exceeds the limit. Max 4000 characters are allowed.");
+            return;
+        }
+
+        const tempId = crypto.randomUUID();
+        const tempMessage = {
+            id: tempId,
+            temp: true,
+            text: messageText,
+            self: true
+        };
+
+        const currentChatId = chatUser.id;
+
+        setInput("");
+        setMessages(prev => ({
+            ...prev,
+            [currentChatId]: [...(prev[currentChatId] || []), tempMessage]
+        }));
+
         try {
+            const response = await sendMessage(currentChatId, messageText);
 
-            if(input.length < 1) return;
-
-            if (input.length > 4000) {
-                toast.error("Message length exceeds the limit. Max 4000 characters are allowed.")
-                return;
-            }
-
-            const tempId = crypto.randomUUID();
-            const tempMessage = {
-                id: tempId,
-                temp: true,
-                text: input,
-                self: true
+            const confirmedMessage = {
+                id: response[0].message_id,
+                text: response[0].content,
+                self: response[0].sender_id === user.user_id
             };
 
-            setInput("");
-            setMessages(prev => ({...prev, [chatUser.id]: [...prev[chatUser.id], tempMessage]}) );
+            console.log("Response: ", response)
+            console.log("Confirmed message: ", confirmedMessage)
+
+            setMessages(prev => ({
+                ...prev,
+                [currentChatId]: prev[currentChatId].map(msg =>
+                    msg.id === tempId ? confirmedMessage : msg
+                )
+            }));
+
         } catch (error) {
-            toast.error(error.message);
+            console.log(error)
+            toast.error(error.message || "Failed to send message");
+            setMessages(prev => ({
+                ...prev,
+                [currentChatId]: prev[currentChatId].filter(msg => msg.id !== tempId)
+            }));
         }
-    }
+    };
 
 
     return (
