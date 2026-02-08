@@ -123,7 +123,7 @@ export async function addMessage(req, res) {
 
         const io = getIO();
 
-        io.to(`user: ${otherUserId}`).emit('new_message', message);
+        io.to(`user: ${otherUserId}`).emit('new_message', message[0]);
 
         res.json({
             success: true,
