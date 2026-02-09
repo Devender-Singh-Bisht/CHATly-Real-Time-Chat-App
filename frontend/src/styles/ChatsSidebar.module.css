@@ -73,3 +73,16 @@
   font-size: 0.85rem;
   color: #888;
 }
+
+
+.noConversations {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noConversations h3 {
+  font-size: 1.3rem;
+  color: var(--darkBlue);
+}
