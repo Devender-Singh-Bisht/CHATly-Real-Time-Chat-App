@@ -54,7 +54,7 @@ function ChatsSidebar() {
                             </div>
                             <div className={styles.chatInfo}>
                                 <h4>{chat.name}</h4>
-                                <p className={styles.lastMessage}>{chat.last}</p>
+                                {chat.last && (<p className={styles.lastMessage}>{chat.last}</p>)}
                             </div>
                             <span className={styles.time}>{chat.time}</span>
                         </div>
