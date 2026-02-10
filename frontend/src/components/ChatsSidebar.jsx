@@ -6,13 +6,14 @@ import { ChatContext } from "../contexts/ChatContext";
 import Spinner from "./Spinner";
 import toast from "react-hot-toast";
 import DefaultProfile from "./DefaultProfile";
+import { useOutletContext } from "react-router";
 
 function ChatsSidebar() {
     const { handleChatUser } = useContext(ChatContext);
     const URL = import.meta.env.VITE_API_URL;
     const convoUrl = `${URL}/api/user/conversations`;
     const [data, error, isLoading] = useGetData(convoUrl);
-    const [conversations, setConversations] = useState([]);
+    const {conversations, setConversations} = useOutletContext();
 
     useEffect(() => {
         if (data?.data) {
