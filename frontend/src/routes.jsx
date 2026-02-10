@@ -29,7 +29,7 @@ const routes = [
             },
             {
                 path: "chats",
-                element: <ChatContextProvider ><Chats /></ChatContextProvider >
+                element: <Chats />
             },
             {
                 path: "profile/:username",
