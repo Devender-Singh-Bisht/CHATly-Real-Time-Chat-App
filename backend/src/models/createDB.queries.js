@@ -7,15 +7,23 @@ export async function createNewUser(email, password_hash, username, firstName, l
 
 // Create a new message 
 export async function createNewMessage(senderId, receiverId, text) {
-
     const query = `
-        INSERT INTO messages (sender_id, receiver_id, content)
-        VALUES ($1, $2, $3)
-        RETURNING *;
+        WITH inserted_row AS (
+            INSERT INTO messages (sender_id, receiver_id, content)
+            VALUES ($1, $2, $3)
+            RETURNING *
+        )
+        SELECT 
+            inserted_row.*, 
+            users.first_name,
+            users.last_name, 
+            users.profile_pic_url
+        FROM inserted_row 
+        JOIN users ON inserted_row.sender_id = users.user_id;
     `;
+
     const values = [senderId, receiverId, text];
 
     const { rows } = await Database.query(query, values);
     return rows;
-
-};
+}
