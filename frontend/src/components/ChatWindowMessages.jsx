@@ -15,7 +15,7 @@ function ChatWindowMessages({ messages, setMessages }) {
     const [isloading, setIsLoading] = useState(false);
 
     async function getChatMessages() {
-        if (chatUser?.id && !(chatUser.id in messages)) {
+        if (chatUser?.id) {
             try {
                 setIsLoading(true);
                 const { chatMessages, nextCursor, hasMore } = await getMessages(chatUser.id);

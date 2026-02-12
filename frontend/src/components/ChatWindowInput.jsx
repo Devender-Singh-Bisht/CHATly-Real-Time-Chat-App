@@ -5,6 +5,8 @@ import styles from "../styles/ChatWindowInput.module.css";
 import toast from "react-hot-toast"
 import { sendMessage } from "../utils/sendMessage.utils";
 import { AuthContext } from "../contexts/AuthContext";
+import { useOutletContext } from "react-router";
+import { getLocal24HourTime } from "../utils/time.utils";
 
 function ChatWindowInput({ setMessages }) {
 
@@ -12,6 +14,7 @@ function ChatWindowInput({ setMessages }) {
     const { user } = useContext(AuthContext);
     const [input, setInput] = useState("");
     const [showPicker, setShowPicker] = useState(false);
+    const { setConversations } = useOutletContext();
 
     const handleInputChange = (e) => setInput(prev => e.target.value);
     const handleEmojiClick = (emojiObject) => setInput(prev => prev + emojiObject.emoji);
@@ -33,6 +36,7 @@ function ChatWindowInput({ setMessages }) {
             self: true
         };
 
+        const currentChatUser = chatUser;
         const currentChatId = chatUser.id;
 
         setInput("");
@@ -51,7 +55,6 @@ function ChatWindowInput({ setMessages }) {
             };
 
             console.log("Response: ", response)
-            console.log("Confirmed message: ", confirmedMessage)
 
             setMessages(prev => ({
                 ...prev,
@@ -59,6 +62,13 @@ function ChatWindowInput({ setMessages }) {
                     msg.id === tempId ? confirmedMessage : msg
                 )
             }));
+
+            setConversations(prev => {
+                const time = getLocal24HourTime(response[0]["sent_at"])
+                let conversation = {id: currentChatId, name: currentChatUser.name, last: response[0].content, time: time};
+                const newConversations = prev.filter(user => user.id != currentChatId);
+                return [conversation, ...newConversations];
+            })
 
         } catch (error) {
             console.log(error)
