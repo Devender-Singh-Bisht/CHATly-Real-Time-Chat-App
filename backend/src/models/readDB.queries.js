@@ -207,4 +207,13 @@ export async function searchUserByUsername(usernameToSearch, currentUserId) {
 }
 
 
+export async function getFriendRequest(senderId, receiverId) {
 
+    const query = `
+        SELECT * FROM friend_requests WHERE ( sender_id = $1 AND receiver_id = $2 ) OR ( sender_id = $2 AND receiver_id = $1);
+    `;
+
+    const { rows } = await Database.query(query, [senderId, receiverId]);
+    return rows;
+
+}

@@ -27,3 +27,13 @@ export async function createNewMessage(senderId, receiverId, text) {
     const { rows } = await Database.query(query, values);
     return rows;
 }
+
+
+export async function createNewRequest(senderId, receiverId) {
+    const query = `INSERT INTO friend_requests (sender_id, receiver_id, status) VALUES ($1, $2, $3)`;
+
+    const values = [senderId, receiverId, 'pending'];
+
+    const { rows } = await Database.query(query, values);
+    return rows;
+}

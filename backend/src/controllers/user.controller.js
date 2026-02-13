@@ -1,6 +1,7 @@
-import { createNewMessage } from "../models/createDB.queries.js";
-import { Database } from "../models/pool.js";
-import { getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserById, getUserByUsername, searchUserByUsername } from "../models/readDB.queries.js";
+import { createNewMessage, createNewRequest } from "../models/createDB.queries.js";
+import { deleteFriendRequestDB } from "../models/deleteDB.queries.js";
+import { getFriendRequest, getFriendRequestbyUserId, getFriendsByUserID, getMessagesbyUserId, getPastConversations, getRecommendedUsersbyUserId, getUserById, getUserByUsername, searchUserByUsername } from "../models/readDB.queries.js";
+import { acceptFriendRequestDB } from "../models/updateDB.queries.js";
 import { getIO } from "../sockets/socket.js";
 
 
@@ -156,7 +157,7 @@ export async function userByUsername(req, res) {
         console.error("Error in User controller: ", error);
         res.status(500).json({ success: false, message: "Internal Server error" });
     }
-    
+
 }
 
 
@@ -166,7 +167,7 @@ export async function profile(req, res) {
         const userId = req.userDetails.user_id;
         const result = await getUserById(userId);
 
-        const {password_hash, ...user} = result[0];
+        const { password_hash, ...user } = result[0];
 
         res.json({
             success: true,
@@ -178,5 +179,102 @@ export async function profile(req, res) {
         console.error("Error in User controller: ", error);
         res.status(500).json({ success: false, message: "Internal Server error" });
     }
-    
+
 }
+
+
+export async function sendFriendRequest(req, res) {
+    try {
+        const user = req.userDetails;
+        const senderId = user.user_id;
+        const receiverId = req.body.receiverId;
+
+        const receiverValidCheck = await getUserById(receiverId);
+        if (receiverValidCheck.length < 1) {
+            return res.status(400).json({ success: false, message: "No such receiver exist!" });
+        }
+
+        const requests = getFriendRequest(senderId, receiverId);
+        if (requests.length < 1) {
+            return res.status(400).json({ success: false, message: "Request Already Exist." })
+        }
+
+        const request = await createNewRequest(senderId, receiverId);
+        return res.status(200).json({
+            success: true,
+            count: 1,
+            data: request[0]
+        })
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+}
+
+
+export async function acceptFriendRequest(req, res) {
+    try {
+        const user = req.userDetails;
+        const receiverId = user.user_id;
+        const senderId = req.body.senderId;
+
+        const senderValidCheck = await getUserById(senderId);
+        if (senderValidCheck.length < 1) {
+            return res.status(400).json({ success: false, message: "No such Request exists!" });
+        }
+
+        const requests = getFriendRequest(senderId, receiverId);
+        if (requests.length < 1) {
+            return res.status(400).json({ success: false, message: "Request Already Exist." })
+        }
+        
+        if ((requests[0]["receiver_id"] !== receiverId) && (requests[0].status !== 'pending')) {
+            return res.status(400).json({ success: false, message: "No such request Exists!"})
+        } 
+
+        const request = await acceptFriendRequestDB(requests[0].request_id, receiverId);
+        return res.status(200).json({
+            success: true,
+            count: 1,
+            data: request
+        })
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+}
+
+
+export async function deleteFriendRequest(req, res) {
+    try {
+        const user = req.userDetails;
+        const receiverId = user.user_id;
+        const senderId = req.body.senderId;
+
+        const senderValidCheck = await getUserById(senderId);
+        if (senderValidCheck.length < 1) {
+            return res.status(400).json({ success: false, message: "No such Request exists!" });
+        }
+
+        const requests = getFriendRequest(senderId, receiverId);
+        if (requests.length < 1) {
+            return res.status(400).json({ success: false, message: "Request Already Exist." })
+        }
+        
+        if (requests[0].status !== 'pending') {
+            return res.status(400).json({ success: false, message: "No such request Exists!"})
+        } 
+
+        const request = await deleteFriendRequestDB(requests[0].request_id, receiverId);
+        return res.status(200).json({
+            success: true,
+            count: 1,
+            data: request
+        })
+    } catch (error) {
+        console.error("Error in User controller: ", error);
+        res.status(500).json({ success: false, message: "Internal Server error" });
+    }
+}
+
+
