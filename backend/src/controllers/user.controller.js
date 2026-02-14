@@ -194,8 +194,8 @@ export async function sendFriendRequest(req, res) {
             return res.status(400).json({ success: false, message: "No such receiver exist!" });
         }
 
-        const requests = getFriendRequest(senderId, receiverId);
-        if (requests.length < 1) {
+        const requests = await getFriendRequest(senderId, receiverId);
+        if (requests.length > 0) {
             return res.status(400).json({ success: false, message: "Request Already Exist." })
         }
 
@@ -223,9 +223,9 @@ export async function acceptFriendRequest(req, res) {
             return res.status(400).json({ success: false, message: "No such Request exists!" });
         }
 
-        const requests = getFriendRequest(senderId, receiverId);
+        const requests = await getFriendRequest(senderId, receiverId);
         if (requests.length < 1) {
-            return res.status(400).json({ success: false, message: "Request Already Exist." })
+            return res.status(400).json({ success: false, message: "Request does not exist." })
         }
         
         if ((requests[0]["receiver_id"] !== receiverId) && (requests[0].status !== 'pending')) {
@@ -256,9 +256,9 @@ export async function deleteFriendRequest(req, res) {
             return res.status(400).json({ success: false, message: "No such Request exists!" });
         }
 
-        const requests = getFriendRequest(senderId, receiverId);
+        const requests = await getFriendRequest(senderId, receiverId);
         if (requests.length < 1) {
-            return res.status(400).json({ success: false, message: "Request Already Exist." })
+            return res.status(400).json({ success: false, message: "Request does not exist." })
         }
         
         if (requests[0].status !== 'pending') {
