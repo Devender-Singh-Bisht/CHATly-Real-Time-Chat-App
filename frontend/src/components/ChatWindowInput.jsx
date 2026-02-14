@@ -54,8 +54,6 @@ function ChatWindowInput({ setMessages }) {
                 self: response[0].sender_id === user.user_id
             };
 
-            console.log("Response: ", response)
-
             setMessages(prev => ({
                 ...prev,
                 [currentChatId]: prev[currentChatId].map(msg =>
@@ -71,7 +69,6 @@ function ChatWindowInput({ setMessages }) {
             })
 
         } catch (error) {
-            console.log(error)
             toast.error(error.message || "Failed to send message");
             setMessages(prev => ({
                 ...prev,

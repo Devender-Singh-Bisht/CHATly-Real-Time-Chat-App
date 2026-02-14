@@ -1,8 +1,24 @@
+import toast from "react-hot-toast";
 import styles from "../styles/FriendShip.module.css";
+import { acceptFriendRequest } from "../utils/acceptFriendRequest";
 import Spinner from "./Spinner";
 import UserItem from "./UserItem";
 
-const FriendRequestsSection = ({ requests, isLoading }) => {
+const FriendRequestsSection = ({ requests, setRequests, setFriends, isLoading }) => {
+
+  const handleAddClick = async (user) => {
+    const toastId = toast.loading("Accepting Request...");
+    try {
+      const request = await acceptFriendRequest(user.user_id);
+      setRequests(prev => (prev.filter(request => request.user_id !== user.user_id)));
+      setFriends(prev => ([user, ...prev]));
+
+      toast.success(`Friend Request Accepted: ${user.username}`, { id: toastId });
+    } catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
+  }
+
   return (
     <section className={styles.requestsCont}>
       <div>Friend Requests</div>
@@ -13,7 +29,7 @@ const FriendRequestsSection = ({ requests, isLoading }) => {
           requests?.map((request) => (
             <UserItem key={request.user_id} user={request}>
               <div className={styles.buttons}>
-                <button className={styles.addBtn}>
+                <button className={styles.addBtn} onClick={() => handleAddClick(request)}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                         <path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" />
                     </svg>

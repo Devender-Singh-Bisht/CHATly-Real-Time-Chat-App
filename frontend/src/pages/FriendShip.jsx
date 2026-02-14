@@ -37,12 +37,18 @@ function FriendShip() {
 
     useEffect(() => {
         socket?.on("new_request", (request) => {
-            toast(`Friend Request from ${request.username}`, {icon: "🔥"});
             setRequests(prev => ([request, ...prev]));
+            toast(`Friend Request from ${request.username}`, { icon: "🔥" });
+        })
+
+        socket?.on("accepted_request", (user) => {
+            setFriends(prev => ([user, ...prev]));
+            toast(`${user.username} accepted your friend request!`, { icon: "🔥" });
         })
 
         return () => {
             socket.off("new_request");
+            socket.off("accepted_request");
         }
     }, [socket])
 
@@ -64,6 +70,8 @@ function FriendShip() {
 
                     <FriendRequestsSection
                         requests={requests}
+                        setRequests={setRequests}
+                        setFriends={setFriends}
                         isLoading={isRequestsLoading}
                     />
 

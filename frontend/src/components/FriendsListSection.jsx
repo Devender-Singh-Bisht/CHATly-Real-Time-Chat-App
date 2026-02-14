@@ -15,7 +15,7 @@ const FriendsListSection = ({ friends, isLoading }) => {
     const name = `${user["first_name"]} ${user["last_name"]}`;
     const userExists = conversations.some(conversation => conversation.id === user.user_id);
     if (!userExists) {
-      const newConversation = { id: user.user_id, name: name } 
+      const newConversation = { id: user.user_id, name: name }
       setConversations(prev => [newConversation, ...prev]);
     }
 

@@ -237,10 +237,14 @@ export async function acceptFriendRequest(req, res) {
         } 
 
         const request = await acceptFriendRequestDB(requests[0].request_id, receiverId);
+
+        const io = getIO()
+        io.to(`user: ${senderId}`).emit('accepted_request', request[0]);
+
         return res.status(200).json({
             success: true,
             count: 1,
-            data: request
+            data: request[0]
         })
     } catch (error) {
         console.error("Error in User controller: ", error);
