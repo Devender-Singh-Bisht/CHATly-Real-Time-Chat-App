@@ -30,10 +30,26 @@ export async function createNewMessage(senderId, receiverId, text) {
 
 
 export async function createNewRequest(senderId, receiverId) {
-    const query = `INSERT INTO friend_requests (sender_id, receiver_id, status) VALUES ($1, $2, $3)`;
+    const query = `
+        WITH inserted_request AS (
+            INSERT INTO friend_requests (sender_id, receiver_id, status)
+            VALUES ($1, $2, 'pending')
+            RETURNING request_id, sender_id, receiver_id
+        )
+        SELECT 
+            u.bio, 
+            u.first_name, 
+            u.last_name, 
+            u.user_id, 
+            u.username, 
+            u.profile_pic_url, 
+            ir.request_id
+        FROM users u
+        JOIN inserted_request ir ON u.user_id = ir.sender_id;
+    `;
 
-    const values = [senderId, receiverId, 'pending'];
+    const values = [senderId, receiverId];
 
     const { rows } = await Database.query(query, values);
-    return rows;
+    return rows; 
 }

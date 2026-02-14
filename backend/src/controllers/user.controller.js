@@ -200,6 +200,10 @@ export async function sendFriendRequest(req, res) {
         }
 
         const request = await createNewRequest(senderId, receiverId);
+
+        const io = getIO();
+        io.to(`user: ${receiverId}`).emit('new_request', request[0]);
+
         return res.status(200).json({
             success: true,
             count: 1,

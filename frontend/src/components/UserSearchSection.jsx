@@ -4,6 +4,8 @@ import SearchBar from "./SearchBar";
 import UserItem from "./UserItem";
 import { useContext } from "react";
 import { ChatContext } from "../contexts/ChatContext";
+import toast from "react-hot-toast";
+import { sendFriendRequest } from "../utils/sendFriendRequest";
 
 const UserSearchSection = ({ searchResults, setSearchResults }) => {
 
@@ -23,6 +25,16 @@ const UserSearchSection = ({ searchResults, setSearchResults }) => {
     navigate("/chats", { replace: true });
   }
 
+  const handleAddClick = async (user) => {
+    const toastId = toast.loading("Sending Request...")
+    try {
+      const request = await sendFriendRequest(user.user_id);
+      toast.success("Request Sent!", { id: toastId});
+    } catch (error) {
+      toast.error(error.message, {id: toastId});
+    }
+  }
+
   return (
     <section className={styles.searchUsers}>
       <SearchBar placeholder="Search Username..." setSearchResults={setSearchResults} />
@@ -36,7 +48,7 @@ const UserSearchSection = ({ searchResults, setSearchResults }) => {
                 {user.isFriend ? (
                   <button className={styles.messageBtn} onClick={() => handleMessageClick(user)} >Message</button>
                 ) : (
-                  <button className={styles.addBtn}>
+                  <button className={styles.addBtn} onClick={() => handleAddClick(user)}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                       <path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" />
                     </svg>

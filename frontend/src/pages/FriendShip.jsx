@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styles from "../styles/FriendShip.module.css";
 
 import ChatsNavbar from "../components/ChatsNavbar";
 import useGetData from "../hooks/useGetData";
 
-// New Components
 import UserSearchSection from "../components/UserSearchSection";
 import FriendsListSection from "../components/FriendsListSection";
 import FriendRequestsSection from "../components/FriendRequestsSection";
+import { SocketContext } from "../contexts/SocketContext";
 
 function FriendShip() {
+
+    const socket = useContext(SocketContext);
+
     const [searchResults, setSearchResults] = useState(null);
     const [friends, setFriends] = useState(null);
     const [requests, setRequests] = useState(null);
@@ -26,31 +29,42 @@ function FriendShip() {
         if (friendsData?.data) setFriends(friendsData.data);
         if (requestsData?.data) setRequests(requestsData.data);
     }, [friendsData, requestsData]);
-    
+
     useEffect(() => {
         if (friendsError) toast.error(friendsError);
         if (requestsError) toast.error(requestsError);
     }, [friendsError, requestsError]);
+
+    useEffect(() => {
+        socket?.on("new_request", (request) => {
+            toast(`Friend Request from ${request.username}`, {icon: "🔥"});
+            setRequests(prev => ([request, ...prev]));
+        })
+
+        return () => {
+            socket.off("new_request");
+        }
+    }, [socket])
 
     return (
         <div className={styles.page}>
             <ChatsNavbar activeNav="friends" />
             <div className={styles.main}>
                 <div className={styles.container}>
-                    
-                    <UserSearchSection 
-                        searchResults={searchResults} 
-                        setSearchResults={setSearchResults} 
+
+                    <UserSearchSection
+                        searchResults={searchResults}
+                        setSearchResults={setSearchResults}
                     />
 
-                    <FriendsListSection 
-                        friends={friends} 
-                        isLoading={isFriendsLoading} 
+                    <FriendsListSection
+                        friends={friends}
+                        isLoading={isFriendsLoading}
                     />
 
-                    <FriendRequestsSection 
-                        requests={requests} 
-                        isLoading={isRequestsLoading} 
+                    <FriendRequestsSection
+                        requests={requests}
+                        isLoading={isRequestsLoading}
                     />
 
                 </div>
