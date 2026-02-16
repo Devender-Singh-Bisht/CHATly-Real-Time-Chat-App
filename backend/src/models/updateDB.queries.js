@@ -15,10 +15,10 @@ export async function acceptFriendRequestDB(requestId, loggedInUserId) {
         )
         SELECT 
             u.bio,
-            u.user_id,n
+            u.user_id,
             u.first_name, 
             u.last_name, 
-            u.user_id AS receiver_id, -- The user who accepted
+            u.user_id,
             u.username, 
             u.profile_pic_url, 
             ur.request_id,
