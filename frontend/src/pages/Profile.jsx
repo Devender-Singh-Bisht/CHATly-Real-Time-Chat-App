@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
 import ChatsNavbar from "../components/ChatsNavbar"
 import styles from "../styles/Profile.module.css"
@@ -18,14 +18,15 @@ function Profile() {
 
     const URL = import.meta.env.VITE_API_URL;
     let usersUrl;
-    if (username === user?.username) {
+
+    if (username === user.username) {
         usersUrl = `${URL}/api/user/profile`;
     }
     else {
         usersUrl = `${URL}/api/user/${username}`;
     }
 
-    const [userData, userError, isUserLoading] = useGetData(usersUrl, {}, false, [user]);
+    const [userData, userError, isUserLoading] = useGetData(usersUrl, {}, false, [user, usersUrl]);
     if (!userData) return null;
     if (userError) {
         toast.error(userError);
@@ -101,9 +102,11 @@ function Profile() {
                                 <p className={styles.dates}>{getMonthYear(profile?.updated_at)}</p>
                             </div>
                         </div>
-                        <div className={styles.row}>
-                            <button className={styles.logoutBtn} onClick={logout}>Logout</button>
-                        </div>
+                        {(username === user.username) && (
+                            <div className={styles.row}>
+                                <button className={styles.logoutBtn} onClick={logout}>Logout</button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
