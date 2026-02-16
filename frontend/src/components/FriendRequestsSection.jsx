@@ -3,6 +3,7 @@ import styles from "../styles/FriendShip.module.css";
 import { acceptFriendRequest } from "../utils/acceptFriendRequest";
 import Spinner from "./Spinner";
 import UserItem from "./UserItem";
+import { rejectFriendRequest } from "../utils/rejectFriendRequest";
 
 const FriendRequestsSection = ({ requests, setRequests, setFriends, isLoading }) => {
 
@@ -19,6 +20,18 @@ const FriendRequestsSection = ({ requests, setRequests, setFriends, isLoading })
     }
   }
 
+  const handleDeleteClick = async (user) => {
+    const toastId = toast.loading("Rejecting Request...");
+    try {
+      const request = await rejectFriendRequest(user.user_id);
+      setRequests(prev => (prev.filter(req => req.user_id !== request.user_id)));
+      toast.success(`Friend Request Deleted: ${request.username}`, { id: toastId });
+    }
+    catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
+  }
+
   return (
     <section className={styles.requestsCont}>
       <div>Friend Requests</div>
@@ -30,14 +43,14 @@ const FriendRequestsSection = ({ requests, setRequests, setFriends, isLoading })
             <UserItem key={request.user_id} user={request}>
               <div className={styles.buttons}>
                 <button className={styles.addBtn} onClick={() => handleAddClick(request)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                        <path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" />
+                  </svg>
                 </button>
-                <button className={styles.deleteBtn}>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                        <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z" />
-                    </svg>
+                <button className={styles.deleteBtn} onClick={() => handleDeleteClick(request)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z" />
+                  </svg>
                 </button>
               </div>
             </UserItem>
