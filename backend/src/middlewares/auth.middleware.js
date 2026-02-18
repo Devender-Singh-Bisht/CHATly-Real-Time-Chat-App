@@ -9,20 +9,22 @@ export async function authenticate(req, res, next) {
 
         const token = req.cookies.jwt;
         if (!token) {
-            return res.status(401).json({message: "Unauthorized: No token provided."});
+            return res.status(401).json({ message: "Unauthorized: No token provided." });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if (!decoded) {
-            return res.status(401).json({message: "Unauthorized: Invalid Token."});
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        } catch (err) {
+            return res.status(401).json({ message: "Invalid or expired token" });
         }
 
         const users = await getUserById(decoded.userId);
         if (users.length == 0) {
-            return res.status(401).json({message: "Unauthorized: User not found."});
+            return res.status(401).json({ message: "Unauthorized: User not found." });
         }
 
-        const {password_hash, ...user} = users[0];
+        const { password_hash, ...user } = users[0];
         req.userDetails = user;
         next();
 

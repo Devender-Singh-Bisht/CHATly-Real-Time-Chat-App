@@ -55,7 +55,7 @@ async function login(req, res) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        return res.status(200).json({ success: true, message: "Login Successful.", data: {user_id: user.user_id, username: user.username} });
+        return res.status(200).json({ success: true, message: "Login Successful.", data: { user_id: user.user_id, username: user.username } });
 
     } catch (error) {
         console.log("Errors in Login controller: ", error)
@@ -84,9 +84,11 @@ async function verify(req, res) {
             return res.status(401).json({ message: "Unauthorized: No token provided." });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if (!decoded) {
-            return res.status(401).json({ message: "Unauthorized: Invalid Token." });
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        } catch (err) {
+            return res.status(401).json({ message: "Invalid or expired token" });
         }
 
         const users = await getUserById(decoded.userId);
@@ -96,7 +98,14 @@ async function verify(req, res) {
 
         const user = users[0];
 
-        return res.status(200).json({ success: true, message: "Verified User", data: {user_id: user["user_id"], username: user.username} });
+        return res.status(200).json({
+            success: true,
+            message: "Verified User",
+            data: {
+                user_id: user["user_id"],
+                username: user.username
+            }
+        });
     } catch (error) {
         console.log("Errors in Verify controller: ", error)
         return res.status(500).json({ message: "Internal Sever Error." });
