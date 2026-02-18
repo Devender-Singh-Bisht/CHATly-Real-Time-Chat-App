@@ -5,6 +5,7 @@ import { ChatContext } from "../contexts/ChatContext";
 import { getMessages } from "../utils/getMessages.utils";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
+import { useOutletContext } from "react-router";
 
 
 function ChatWindowMessages({ messages, setMessages }) {
@@ -13,6 +14,8 @@ function ChatWindowMessages({ messages, setMessages }) {
     const { user } = useContext(AuthContext);
     const { chatUser } = useContext(ChatContext);
     const [isloading, setIsLoading] = useState(false);
+    const { visible } = useOutletContext();
+
 
     async function getChatMessages() {
         if (chatUser?.id) {
@@ -38,7 +41,7 @@ function ChatWindowMessages({ messages, setMessages }) {
     }
 
     useEffect(() => {
-        getChatMessages(); 
+        getChatMessages();
     }, [chatUser])
 
     useEffect(() => {
@@ -63,10 +66,11 @@ function ChatWindowMessages({ messages, setMessages }) {
                     className={`${styles.message} ${msg.self ? styles.self : ""
                         }`}
                 >
+                    {visible && <div className="visibleDiv"></div>}
                     {msg.text}
                 </div>
             ))}
-
+            
             <div ref={scrollRef} />
         </div>
     )

@@ -1,5 +1,6 @@
 
 .chatHeader {
+  position: relative;
   height: 80px;
   background: #ffffff;
   background-color: var(--primaryBlue);
@@ -18,10 +19,5 @@
 }
 
 .chatHeaderText {
-  font-size: 1.1rem;
-}
-
-.status {
-  font-size: 0.85rem;
-  color: green;
+  font-size: 1.2rem;
 }

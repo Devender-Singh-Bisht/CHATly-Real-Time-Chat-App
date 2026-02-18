@@ -13,7 +13,7 @@ function ChatsSidebar() {
     const URL = import.meta.env.VITE_API_URL;
     const convoUrl = `${URL}/api/user/conversations`;
     const [data, error, isLoading] = useGetData(convoUrl);
-    const {conversations, setConversations} = useOutletContext();
+    const {conversations, setConversations, visible} = useOutletContext();
 
     useEffect(() => {
         if (data?.data) {
@@ -49,6 +49,7 @@ function ChatsSidebar() {
                             className={styles.chatItem} 
                             onClick={() => handleChatUser(chat.id, chat.name, chat.profilePic)}
                         >
+                            {(visible) && <div className="visibleDiv"></div>}
                             <div className={styles.avatar}>
                                 <DefaultProfile />
                             </div>

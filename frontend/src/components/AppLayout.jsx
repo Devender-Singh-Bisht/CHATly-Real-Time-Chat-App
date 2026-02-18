@@ -7,12 +7,13 @@ import { ChatContextProvider } from "../contexts/ChatContext";
 const AppLayout = () => {
 
     const [conversations, setConversations] = useState([]);
+    const [visible, setVisible] = useState(true);
 
     return (
         <ProtectedRoute>
             <SocketProvider>
                 <ChatContextProvider>
-                    <Outlet context={{ conversations, setConversations }} />
+                    <Outlet context={{ conversations, setConversations, visible, setVisible }} />
                 </ChatContextProvider>
             </SocketProvider>
         </ProtectedRoute>

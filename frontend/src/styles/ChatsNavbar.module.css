@@ -22,7 +22,7 @@
 }
 
 .navIcon svg {
-  max-width: 100%;
+  width: 40px;
   fill: var(--darkBlue);
 }
 
@@ -32,4 +32,8 @@
 
 .active {
   background: #d7f7ff;
+}
+
+.svg {
+  max-width: 100%;
 }
