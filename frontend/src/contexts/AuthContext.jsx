@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const verifyUser = async () => {
-            const toastId = toast.loading("Loading...");
 
             try {
                 const res = await fetch("http://localhost:3000/api/auth/verify", { method: 'GET', credentials: "include" });
@@ -20,8 +19,6 @@ export const AuthProvider = ({ children }) => {
                 setUser(data["data"]);
             } catch {
                 setUser(false);
-            } finally {
-                toast.dismiss(toastId);
             }
         }
 
