@@ -7,7 +7,7 @@ import { ChatContextProvider } from "../contexts/ChatContext";
 const AppLayout = () => {
 
     const [conversations, setConversations] = useState([]);
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
 
     return (
         <ProtectedRoute>
