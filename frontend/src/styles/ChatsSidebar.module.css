@@ -14,6 +14,7 @@
 .sidebarChats {
   padding: 10px 5px;
   overflow-y: auto;
+  overflow-x: hidden;
   height: 90%;
 }
 
@@ -43,11 +44,17 @@
 }
 
 .avatar {
+  flex: 0 0 auto;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: var(--primaryBlue);
   margin-right: 12px;
+}
+
+.chatInfo {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .chatInfo h4,
@@ -58,20 +65,19 @@
 }
 
 .chatInfo h4 {
-  width: 200px;
   margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .chatInfo p {
-  width: 200px;
   margin: 2px 0 0;
   font-size: 0.9rem;
   color: #666;
 }
 
 .time {
+  flex: 0 0 auto;
   margin-left: auto;
   font-size: 0.85rem;
   color: #888;
