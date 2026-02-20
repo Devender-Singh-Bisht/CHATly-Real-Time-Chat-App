@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 24px;
+  gap: 10px;
 }
 
 .navIcon {
@@ -36,4 +37,36 @@
 
 .svg {
   max-width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+
+  .iconNav {
+    width: 68px;
+  }
+  
+  .navIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .navIcon svg {
+    width: 30px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .iconNav {
+    width: 54px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iconNav {
+    width: 100%;
+    height: 78px;
+    flex-direction: row;
+    border: 0.5px solid black;
+    justify-content: space-around;
+  }
 }
