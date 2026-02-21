@@ -11,7 +11,7 @@ export const ChatContextProvider = ({ children }) => {
     }
 
     return (
-        <ChatContext.Provider value={{chatUser, handleChatUser}} >
+        <ChatContext.Provider value={{chatUser, handleChatUser, setChatUser}} >
             {children}
         </ChatContext.Provider>
     );
