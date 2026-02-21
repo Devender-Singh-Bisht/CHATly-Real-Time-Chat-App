@@ -15,13 +15,16 @@ function ChatWindowHeader() {
 
     return (
         <div className={styles.chatHeader}>
-            {visible && <div className="visibleDiv"></div>}
-            <button onClick={handleBackClick} className={styles.backBtn}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2a7b9b"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg></button>
-            <div className={styles.avatar}>
-                <DefaultProfile/>
-            </div>
-            <div className={styles.chatHeaderText}>
-                <h4>{chatUser.name}</h4>
+
+            <button onClick={handleBackClick} className={styles.backBtn}><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2a7b9b"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" /></svg></button>
+            <div className={styles.info}>
+                {visible && <div className="visibleDiv"></div>}
+                <div className={styles.avatar}>
+                    <DefaultProfile />
+                </div>
+                <div className={styles.chatHeaderText}>
+                    <h4>{chatUser.name}</h4>
+                </div>
             </div>
         </div>
 
