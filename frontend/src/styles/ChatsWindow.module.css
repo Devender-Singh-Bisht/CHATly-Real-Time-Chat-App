@@ -5,6 +5,7 @@
   position: relative;
   flex-direction: column;
   background: #efebe6;
+  transform: translateX(0);
 }
 
 /* Initial window */
@@ -50,4 +51,22 @@
   background: var(--c);
   border-image: conic-gradient(var(--c) 0 0) 0 999 999 0/ 0 calc(var(--h) + var(--b)) calc(var(--h) + var(--b)) 0/0 var(--h) var(--h) 0;
 
+}
+
+
+@media screen and (max-width: 500px) {
+  .chatWindow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebarActive {
+    transform: translateX(100%);
+  }
+
+  .chatActive {
+    transform: translateX(0);
+  }
 }

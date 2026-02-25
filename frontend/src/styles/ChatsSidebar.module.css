@@ -152,3 +152,35 @@
     font-size: 0.65rem;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .sidebar {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebarActive {
+    transform: translateX(0);
+  }
+
+  .chatActive {
+    transform: translate(-100%);
+  }
+
+  .chatInfo h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .chatInfo p {
+    font-size: 1rem;
+  }
+
+  .avatar {
+    width: 45px;
+    height: 45px;
+  }
+}

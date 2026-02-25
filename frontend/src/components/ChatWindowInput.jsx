@@ -28,7 +28,13 @@ function ChatWindowInput({ setMessages }) {
             return;
         }
 
-        const tempId = crypto.randomUUID();
+        // const tempId = crypto.randomUUID();
+        // A reliable way to get a UUID-like string even on insecure networks
+        const tempId = (globalThis.crypto?.randomUUID)
+            ? crypto.randomUUID()
+            : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
         const tempMessage = {
             id: tempId,
             temp: true,
@@ -63,7 +69,7 @@ function ChatWindowInput({ setMessages }) {
 
             setConversations(prev => {
                 const time = getLocal24HourTime(response[0]["sent_at"])
-                let conversation = {id: currentChatId, name: currentChatUser.name, last: response[0].content, time: time};
+                let conversation = { id: currentChatId, name: currentChatUser.name, last: response[0].content, time: time };
                 const newConversations = prev.filter(user => user.id != currentChatId);
                 return [conversation, ...newConversations];
             })

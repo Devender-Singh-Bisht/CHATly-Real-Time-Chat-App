@@ -43,7 +43,7 @@ function ChatsWindow() {
 
     if (chatUser === null) {
         return (
-            <section className={styles.chatWindow}>
+            <section className={`${styles.chatWindow} ${!chatUser? styles.sidebarActive: styles.chatActive}`}>
                 <div className={styles.initialWindow}>
                     <div className={styles.tooltip}><h1>Chatly</h1></div>
                     <p>Chat your way</p>
@@ -53,7 +53,7 @@ function ChatsWindow() {
     };
 
     return (
-        <section className={styles.chatWindow}>
+        <section className={`${styles.chatWindow} ${!chatUser? styles.sidebarActive: styles.chatActive}`}>
             {/* Header */}
             <ChatWindowHeader />
 

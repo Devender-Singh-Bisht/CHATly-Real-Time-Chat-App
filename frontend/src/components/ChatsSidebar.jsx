@@ -9,7 +9,7 @@ import DefaultProfile from "./DefaultProfile";
 import { useOutletContext } from "react-router";
 
 function ChatsSidebar() {
-    const { handleChatUser } = useContext(ChatContext);
+    const { chatUser, handleChatUser } = useContext(ChatContext);
     const URL = import.meta.env.VITE_API_URL;
     const convoUrl = `${URL}/api/user/conversations`;
     const [data, error, isLoading] = useGetData(convoUrl);
@@ -31,7 +31,7 @@ function ChatsSidebar() {
     if (error) toast.error(error);
 
     return (
-        <aside className={styles.sidebar}>
+        <aside className={`${styles.sidebar} ${!chatUser? styles.sidebarActive: styles.chatActive}`}>
             <div className={styles.sidebarHeader}>
                 <h2>Messages</h2>
             </div>
