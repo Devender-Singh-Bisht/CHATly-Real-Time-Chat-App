@@ -9,8 +9,10 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const verifyUser = async () => {
 
+            const URL = import.meta.env.VITE_API_URL;
+
             try {
-                const res = await fetch("http://localhost:3000/api/auth/verify", { method: 'GET', credentials: "include" });
+                const res = await fetch(`${URL}/api/auth/verify`, { method: 'GET', credentials: "include" });
 
                 const data = await res.json();
                 if (!res.ok) {
