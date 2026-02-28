@@ -8,17 +8,16 @@
 .profileArea {
   flex: 1;
   display: flex;
-  overflow: hidden;
+  overflow-y: auto;
   background: linear-gradient(104deg, var(--darkBlue) 0%, var(--primaryBlue) 61%, var(--primaryBlue) 100%);
 }
 
 .profileCont {
   width: 50%;
-  min-width: 300px;
+  min-width: 350px;
   max-width: 800px;
   max-height: 100%;
   margin: auto;
-  overflow-y: auto;
 }
 
 .top {
@@ -32,10 +31,12 @@
 .topRight {
   flex: 2;
   color: black;
+  min-width: 0;
 }
 
 .avatar {
   flex: 1;
+  min-width: 150px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.611);
 }
@@ -46,7 +47,8 @@
 }
 
 .userName {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .bio {
@@ -57,6 +59,7 @@
 
 .row {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 10px 20px;
 }
@@ -99,4 +102,35 @@
 
 .logoutBtn:hover {
   scale: 1.04;
+}
+
+
+@media screen and (max-width: 600px) {
+  .page {
+    flex-direction: column-reverse;
+  }
+
+  .fullName {
+    font-size: 1.7rem;
+  }
+
+  .userName {
+    font-size: 1.2rem;
+  }
+
+  .bio {
+    font-size: 0.8rem;
+  }
+
+  .rowElement {
+    font-size: 1.2rem;
+  }
+
+  .detailsInputs {
+    font-size: 1rem;
+  }
+
+  .dates {
+    font-size: 1rem;
+  }
 }
