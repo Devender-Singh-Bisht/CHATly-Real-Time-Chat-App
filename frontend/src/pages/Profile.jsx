@@ -97,10 +97,6 @@ function Profile() {
                                 <p>Created at:</p>
                                 <p className={styles.dates}>{getMonthYear(profile?.created_at)}</p>
                             </div>
-                            <div className={styles.rowElement}>
-                                <p>Updated at:</p>
-                                <p className={styles.dates}>{getMonthYear(profile?.updated_at)}</p>
-                            </div>
                         </div>
                         {(username === user.username) && (
                             <div className={styles.row}>
