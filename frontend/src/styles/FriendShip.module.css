@@ -8,24 +8,26 @@
 .main {
   flex: 1;
   display: flex;
-  overflow: hidden;
+  overflow: auto;
   background: linear-gradient(104deg, var(--darkBlue) 0%, var(--primaryBlue) 61%, var(--primaryBlue) 100%);
 }
 
 .container {
-  display: flex;
-  gap: 30px;
-  width: 90%;
-  height: 75%;
-  margin: auto;
+  height: 100%;
+  width: 100%;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(380px, 1fr));
+  justify-content: center;
+  gap: 20px;
+  overflow: auto;
 }
 
 .searchUsers {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   background-color: white;
+  min-width: 0;
 }
 
 .results {
@@ -42,13 +44,14 @@
   font-size: 1.5rem;
 }
 
-.friendsCont, .requestsCont {
-  flex: 1;
+.friendsCont,
+.requestsCont {
   background-color: white;
   overflow: hidden;
 }
 
-.friendsCont>:first-child, .requestsCont>:first-child {
+.friendsCont>:first-child,
+.requestsCont>:first-child {
   width: 100%;
   padding: 20px 0;
   font-size: 2rem;
@@ -57,7 +60,9 @@
   text-align: center;
 }
 
-.friends, .requests, .results {
+.friends,
+.requests,
+.results {
   padding: 20px;
   height: 80%;
   overflow: hidden;
@@ -78,7 +83,7 @@
   align-items: center;
   background-color: var(--darkBlue);
   border-radius: 16px;
-  padding: 20px;
+  padding: 20px 10px 20px 20px;
   margin-bottom: 10px;
 }
 
@@ -101,7 +106,7 @@
 }
 
 .messageBtn {
-  padding: 10px 30px;
+  padding: 10px 20px;
   background-color: var(--yellow);
   font-size: 1rem;
   border-radius: 10px;
@@ -114,11 +119,65 @@
   scale: 1.02;
 }
 
-.addBtn, .deleteBtn {
+.addBtn,
+.deleteBtn {
   composes: messageBtn;
   padding: 10px 20px;
 }
 
-.addBtn svg, .deleteBtn svg {
+.addBtn svg,
+.deleteBtn svg {
   fill: var(--darkBlue);
+}
+
+
+@media screen and (max-width: 1400px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .requests,
+  .friendsCont,
+  .requestsCont {
+    min-height: 420px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    grid-template-columns: 500px;
+    grid-template-columns: minmax(300px, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page {
+    flex-direction: column-reverse;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .friend {
+    padding: 10px;
+  }
+
+  .messageBtn {
+    font-size: 0.6rem;
+  }
+
+  .addBtn,
+  .deleteBtn {
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+
+  .main {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
 }
