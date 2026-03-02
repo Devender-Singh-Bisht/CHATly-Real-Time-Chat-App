@@ -3,8 +3,9 @@ import { validateRegisterFormActions } from "../utils/validateRegisterFormAction
 import styles from "../styles/Register.module.css";
 import toast from "react-hot-toast";
 import handleRegister from "../utils/handleRegister";
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { AuthContext } from "../contexts/AuthContext";
+import Spinner from "../components/Spinner";
 
 
 export default function Registration() {
@@ -25,8 +26,13 @@ export default function Registration() {
     gender: "",
   });
 
-  // Check if the user already have the token
-  if (user === null) return null;
+  if (user === null) {
+    return (
+      <div className={styles.page}>
+        <Spinner></Spinner>
+      </div>
+    )
+  };
 
   if (user) navigate('/chats', { replace: true });
 
@@ -125,7 +131,13 @@ export default function Registration() {
           </div>
         )}
 
+        <div className={styles.link}>
+          <span>Already have an account?</span>
+          <Link to={"/login"}>Sign In</Link>
+        </div>
+
         <div className={styles.actions}>
+
           {step > 1 && (
             <button type="button" className={styles.secondaryBtn} onClick={(e) => prevStep(e)} >
               Back

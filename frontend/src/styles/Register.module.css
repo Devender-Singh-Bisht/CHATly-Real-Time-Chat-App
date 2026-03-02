@@ -59,7 +59,7 @@
 .inputInfo {
     font-size: 0.8rem;
     padding: 0 5px;
-    background-color: #ff000053;
+    color: red;
 }
 
 .input:focus {
@@ -74,10 +74,17 @@
     transform: scale(1.02);
 }
 
+.link {
+    margin-top: 20px;
+}
+
+.link a {
+    color: var(--darkBlue);
+}
+
 .actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
 }
 
 .primaryBtn {

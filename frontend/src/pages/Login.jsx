@@ -1,19 +1,28 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
 import styles from '../styles/Login.module.css'
-import airplanegif from '../assets/airplaneanimation.gif'
 import handleLogin from '../utils/handleLogin';
 import { AuthContext } from '../contexts/AuthContext';
+import Spinner from '../components/Spinner';
+import SmileSvg from '../components/svgs/SmileSvg';
+import HappySvg from '../components/svgs/HappySvg';
+import EyesClosed from '../components/svgs/EyesClosedSvg';
 
 function Login() {
 
+  const [emoji, setEmoji] = useState(null);
   const navigate = useNavigate();
-  const {user, handleAuthContextOnLogin} = useContext(AuthContext);
+  const { user, handleAuthContextOnLogin } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
 
-  // Check if the user already have the token
-  if (user === null) return null;
+  if (user === null) {
+    return (
+      <div className={styles.page}>
+        <Spinner></Spinner>
+      </div>
+    )
+  };
 
   if (user) navigate('/chats', { replace: true });
 
@@ -32,9 +41,9 @@ function Login() {
       toast.error(err.message || "Login Failed...", { id: toastl });
       return
     } finally {
-      setUserDetails({'email': "", 'password': ""});
+      setUserDetails({ 'email': "", 'password': "" });
     }
-    
+
     toast.success("Login Successfull.", { id: toastl });
     navigate('/chats', { replace: true });
   }
@@ -45,21 +54,31 @@ function Login() {
 
         <div className={styles.main}>
 
-          <div className={styles.imagediv}>
-            <img src={airplanegif} alt="Side animation of Airplane" />
+          <div className={styles.topCont}>
+            <div className={styles.imageDiv}>
+              {emoji === "email"
+                ? <HappySvg/> :
+                  emoji === "password"
+                  ? <EyesClosed/> : <SmileSvg />
+              }
+            </div>
             <h1>Sign In</h1>
           </div>
 
           <form className={styles.loginform} onSubmit={(e) => handleFormSubmit(e)} >
             <div className={styles.formrow}>
               <label htmlFor="email">Email:</label>
-              <input type="email" name="email" id="email" placeholder='Email Address' onChange={(e) => handleUpdate(e, "email")} value={userDetails.email} required />
+              <input type="email" name="email" id="email" placeholder='Email Address' onChange={(e) => handleUpdate(e, "email")} value={userDetails.email} required onBlur={() => setEmoji(null)} onFocus={() => setEmoji("email")} />
             </div>
             <div className={styles.formrow}>
               <label htmlFor="password">Password:</label>
-              <input type="password" name="password" id="password" placeholder='Password' onChange={(e) => handleUpdate(e, "password")} value={userDetails.password} required minLength="8" />
+              <input type="password" name="password" id="password" placeholder='Password' onChange={(e) => handleUpdate(e, "password")} value={userDetails.password} required minLength="8" onBlur={() => setEmoji(null)} onFocus={() => setEmoji("password")} />
             </div>
             <div className={styles.buttondiv}>
+              <div>
+                <span>Don't have any account?</span>
+                <Link to={"/register"} className={styles.link} >Sign Up</Link>
+              </div>
               <button type="submit">Sign In</button>
             </div>
           </form>

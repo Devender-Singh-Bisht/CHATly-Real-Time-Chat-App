@@ -20,15 +20,17 @@
     border-radius: 10px;
 }
 
-.imagediv {
+.topCont {
     height: 40%;
 }
 
-.imagediv img {
+.topCont img {
     border-radius: 80px;
 }
 
-.imagediv h1 {
+.imageDiv {}
+
+.topCont h1 {
     font-size: 2.5rem;
     text-align: center;
     color: var(--darkBlue);
@@ -66,9 +68,15 @@
     transform: scale(1.02);
 }
 
+.link {
+    color: var(--darkBlue);
+}
+
 .buttondiv {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-top: 40px;
 }
 
