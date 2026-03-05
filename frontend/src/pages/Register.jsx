@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { validateRegisterFormActions } from "../utils/validateRegisterFormActions";
 import styles from "../styles/Register.module.css";
 import toast from "react-hot-toast";
@@ -26,6 +26,10 @@ export default function Registration() {
     gender: "",
   });
 
+  useEffect(() => {
+      if (user) navigate('/chats', { replace: true });
+  }, [user])
+
   if (user === null) {
     return (
       <div className={styles.page}>
@@ -33,8 +37,6 @@ export default function Registration() {
       </div>
     )
   };
-
-  if (user) navigate('/chats', { replace: true });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
