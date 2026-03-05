@@ -1,0 +1,287 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-image: url("../assets/svgs/bg.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    position: relative;
+    background-color: var(--primaryBlue);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    height: 90px;
+    width: 80%;
+    padding: 10px 20px;
+    margin: auto;
+    background-color: var(--yellow);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.tooltip {
+    --b: 0.8em;
+    --h: .5em;
+    --c: var(--darkBlue);
+    padding: 0.8em;
+    border-radius: 1em;
+    border-bottom-right-radius: 0;
+    clip-path: polygon(100% 0, 0 0, 0 100%,
+            calc(100% - var(--b)) 100%,
+            calc(100% + var(--h)) calc(100% + var(--h)),
+            100% calc(100% - var(--b)));
+    background: var(--c);
+    border-image: conic-gradient(var(--c) 0 0) 0 999 999 0/ 0 calc(var(--h) + var(--b)) calc(var(--h) + var(--b)) 0/0 var(--h) var(--h) 0;
+}
+
+.navElements {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navElements li {
+    font-size: 1.3rem;
+    font-weight: 650;
+    list-style-type: none;
+    transition: all 0.3s ease;
+}
+
+.navElements li:hover {
+    transform: scale(1.05);
+}
+
+.navElements li a {
+    color: var(--darkBlue);
+    text-decoration: inherit;
+}
+
+.standingGirl,
+.sittingBoy {
+    position: absolute;
+    max-width: 400px;
+}
+
+.standingGirl {
+    bottom: 0;
+    left: 0;
+}
+
+.sittingBoy {
+    bottom: 0;
+    right: 0;
+}
+
+.flower {
+    position: absolute;
+    top: 120px;
+    left: 50px;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+    z-index: 3;
+}
+
+.flower:hover {
+    animation-play-state: paused;
+}
+
+.flower svg {
+    max-width: 100%;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+}
+
+.punchLine {
+    margin-top: 100px;
+    color: black;
+    z-index: 3;
+}
+
+.punchLine h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 5rem;
+    text-align: center;
+}
+
+.punchLine h6 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.rightArrow {
+    max-width: 400px;
+    position: absolute;
+    top: 40px;
+    right: 0;
+}
+
+.thread {
+    width: 800px;
+    position: absolute;
+    bottom: 40px;
+    transform: rotate(180deg);
+}
+
+.messageCloud {
+    width: 100px;
+    position: absolute;
+    bottom: 300px;
+    left: 40px;
+}
+
+
+.buttons {
+    z-index: 2;
+}
+
+.buttons button {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.buttons button:hover {
+    transform: scale(1.03);
+}
+
+
+@media screen and (max-width: 1400px) {
+    .rightArrow {
+        width: 300px;
+        top: 80px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .punchLine h1 {
+        font-size: 4rem;
+    }
+
+    .thread {
+        width: 500px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .nav {
+        width: 90%;
+    }
+
+    .sittingBoy, .standingGirl {
+        max-width: 300px;
+    }
+
+    .punchLine h1 {
+        font-size: 3rem;
+    }
+
+    .punchLine h6 {
+        font-size: 1.2rem;
+    }
+
+    .rightArrow {
+        width: 250px;
+        top: 120px;
+    }
+
+    .thread {
+        width: 350px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navElements li {
+        font-size: 1rem;
+    }
+
+    .sittingBoy, .standingGirl {
+        max-width: 250px;
+    }
+
+    .flower {
+        width: 80px;
+        height: 80px;
+    }
+
+    .punchLine h1 {
+        font-size: 2.5rem;
+    }
+
+    .punchLine h6 {
+        font-size: 1rem;
+    }
+
+    .rightArrow {
+        width: 200px;
+        top: 100px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .nav {
+        width: 95%;
+        padding: 10px 10px;
+    }
+
+    .navElements {
+        gap: 15px;
+    }
+
+    .navElements li {
+        font-size: 0.8rem;
+    }
+
+    .tooltip {
+        font-size: 0.7em;
+    }
+
+    .sittingBoy, .standingGirl {
+        max-width: 150px;
+    }
+
+    .punchLine {
+        padding: 0px 20px;
+    }
+
+    .thread {
+        width: 250px;
+    }
+}
