@@ -81,6 +81,7 @@ function ChatsNavbar({ activeNav = "chats" }) {
 
         <nav>
             <aside className={styles.iconNav}>
+                <img className={styles.appIcon} src="/favicon.png" alt="" />
                 {navElements.map((element) => {
                     return (<Link
                         to={element.url}
