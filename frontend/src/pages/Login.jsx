@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
 import styles from '../styles/Login.module.css'
@@ -16,6 +16,10 @@ function Login() {
   const { user, handleAuthContextOnLogin } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState({ 'email': '', 'password': '' });
 
+  useEffect(() => {
+    if (user) navigate('/chats', { replace: true });
+  }, [user])
+
   if (user === null) {
     return (
       <div className={styles.page}>
@@ -23,8 +27,6 @@ function Login() {
       </div>
     )
   };
-
-  if (user) navigate('/chats', { replace: true });
 
   const handleUpdate = (e, item = "email") => {
     setUserDetails(prev => ({ ...prev, [item]: e.target.value }));
@@ -57,9 +59,9 @@ function Login() {
           <div className={styles.topCont}>
             <div className={styles.imageDiv}>
               {emoji === "email"
-                ? <HappySvg/> :
-                  emoji === "password"
-                  ? <EyesClosed/> : <SmileSvg />
+                ? <HappySvg /> :
+                emoji === "password"
+                  ? <EyesClosed /> : <SmileSvg />
               }
             </div>
             <h1>Sign In</h1>

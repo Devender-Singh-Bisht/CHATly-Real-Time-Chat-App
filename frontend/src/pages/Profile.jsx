@@ -37,7 +37,7 @@ function Profile() {
         try {
             handleLogout();
             toast.success("Logout Successfull", { id: toastId });
-            handleAuthContextOnLogout
+            handleAuthContextOnLogout();
             navigate("/login", { replace: true });
         } catch (error) {
             toast.error(error, { id: toastId });
