@@ -9,8 +9,8 @@ export async function createNewUser(email, password_hash, username, firstName, l
 export async function createNewMessage(senderId, receiverId, text) {
     const query = `
         WITH inserted_row AS (
-            INSERT INTO messages (sender_id, receiver_id, content)
-            VALUES ($1, $2, $3)
+            INSERT INTO messages (sender_id, receiver_id, content, message_type)
+            VALUES ($1, $2, $3, $4)
             RETURNING *
         )
         SELECT 
@@ -22,7 +22,7 @@ export async function createNewMessage(senderId, receiverId, text) {
         JOIN users ON inserted_row.sender_id = users.user_id;
     `;
 
-    const values = [senderId, receiverId, text];
+    const values = [senderId, receiverId, text, "text"];
 
     const { rows } = await Database.query(query, values);
     return rows;

@@ -10,11 +10,10 @@ import userRouter from "./src/routes/user.route.js";
 const app = express();
 const httpServer = createServer(app);
 
-// Initialize Socket.io
 initSocket(httpServer);
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://10.208.116.142:5173"],
+  origin: [process.env.CLIENT_URL],
   credentials: true,
 }));
 app.use(express.json());
@@ -22,8 +21,6 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-
-app.get("/", (req, res) => res.send("Hello, world!"));
 
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
