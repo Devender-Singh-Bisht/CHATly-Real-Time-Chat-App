@@ -1,4 +1,4 @@
-export const getMessages = async (conversationId,{ limit = null, cursor = null } = {}) => {
+export const getMessages = async (conversationId, { limit = 30, cursor = null } = {}) => {
     if (!conversationId) {
         throw new Error("conversationId is required");
     }

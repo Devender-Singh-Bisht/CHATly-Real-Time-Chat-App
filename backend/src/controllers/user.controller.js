@@ -93,14 +93,25 @@ export async function messages(req, res) {
     try {
 
         const otherUserId = req.params.conversationId;
-
         const user = req.userDetails;
-        const messages = await getMessagesbyUserId(user.user_id, otherUserId);
+        const limit = parseInt(req.query.limit) || 30
+        const cursor = req.query.cursor
+
+        let messages = await getMessagesbyUserId(user.user_id, otherUserId, limit, cursor);
+        let nextCursor = null;
+        let hasMore = false
+        if (messages.length > limit) {
+            hasMore = true
+            const lastMessage = messages.shift()
+            nextCursor = lastMessage.message_id
+        }
 
         res.json({
             success: true,
             count: messages.length || 0,
-            data: messages
+            data: messages,
+            nextCursor: nextCursor,
+            hasMore: hasMore
         })
 
     } catch (error) {

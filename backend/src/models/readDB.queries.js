@@ -148,28 +148,32 @@ export async function getPastConversations(id) {
 }
 
 // Get all messages for a user
-export async function getMessagesbyUserId(id, otherUserId) {
-
-    const query = `
-        SELECT 
-            message_id, 
-            sender_id, 
-            receiver_id, 
-            message_type, 
-            content,
-            is_read, 
-            sent_at
-        FROM messages
-        WHERE 
-            (sender_id = $1 AND receiver_id = $2) 
-            OR 
-            (sender_id = $2 AND receiver_id = $1)
-        ORDER BY sent_at ASC;
+export async function getMessagesbyUserId(id, otherUserId, limit, cursor) {
+    let query = `
+        SELECT * FROM (
+            SELECT 
+                message_id, sender_id, receiver_id, 
+                message_type, content, is_read, sent_at
+            FROM messages
+            WHERE ((sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1))
     `;
 
-    const { rows } = await Database.query(query, [id, otherUserId]);
-    return rows;
+    let params = [id, otherUserId, limit+1];
 
+    if (cursor) {
+        query += ` AND message_id < $4 `;
+        params.push(cursor);
+    }
+
+    query += ` 
+            ORDER BY message_id DESC 
+            LIMIT $3
+        ) AS msg_subquery 
+        ORDER BY message_id ASC;
+    `;
+
+    const { rows } = await Database.query(query, params);
+    return rows;
 }
 
 export async function searchUserByUsername(usernameToSearch, currentUserId) {
