@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-watch": "node --watch app.js",
-    "dev": "node 'src/app.js'"
+    "dev": "node 'src/app.js'",
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
