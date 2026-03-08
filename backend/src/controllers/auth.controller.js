@@ -49,7 +49,7 @@ async function login(req, res) {
         const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
         res.cookie('jwt', token, {
             httpOnly: true,
-            secure: false, // Use "secure: true" in production with HTTPS
+            secure: true,
             sameSite: 'lax',
             path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
