@@ -8,7 +8,7 @@
 ![Render](https://img.shields.io/badge/Backend%20Deploy-Render-purple)
 
 
-<video src="assets/PrivacyMode.mp4" controls width="750"></video>
+![Privacy Mode](assets/PrivacyMode.gif)
 
 --- 
 
@@ -47,33 +47,29 @@ https://chatly-real-time-chat-app.onrender.com
 <br>
 <br>
 
-# Demo Videos
+## Demo Videos
 
-## Login Flow
+### Login Flow
 
-<video src="assets/Login.mp4" controls width="750"></video>
+![Login Demo](assets/Login.gif)
 
 Shows secure user authentication and session initialization.
 
 ---
 
-## Main Chat Feature
-
-
-
 ---
 
-## Application Working
+### Application Working
 
-<video src="assets/Working.mp4" controls width="750"></video>
+![Working Demo](assets/Working.gif)
 
 Shows the full workflow including message sending and receiving.
 
 ---
 
-## Logout Flow
+### Logout Flow
 
-<video src="assets/Logout.mp4" controls width="750"></video>
+![Logout Demo](assets/Logout.gif)
 
 Demonstrates proper session termination and cookie removal.
 
@@ -283,7 +279,7 @@ chatlly
 └── assets
     ├── Login.mp4
     ├── Logout.mp4
-    ├── MainFeature.mp4
+    ├── PrivateMode.mp4
     └── Working.mp4
     └── Architecture.png
 ```
